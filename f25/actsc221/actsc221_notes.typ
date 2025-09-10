@@ -9,6 +9,12 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
+#set heading(numbering: "1.")
+#outline()
+
+#pagebreak()
+
+
 = Introduction to Interest
 
 == Working with Interest
@@ -31,9 +37,7 @@
 
 #warning-box[
   Effective rates can be misleading since the time frame isn't considered. 
-  
  ]
-
 
 #example[
   
@@ -150,15 +154,130 @@ Generalizing the above, we have the formula for the amount function for an initi
   $ A(t) = P(1 + r)^n $
 ]
 
+
+So far we have seen accumulated or future value of the principal. Often we want the initial value or present value, given a final value
+
+This process, where we bring cash flows back in time, is called *_discounting_*  the values.
+
+The idea that $1 + r$ carries values into the future, and dividing by $1 + r$ carries values back to the present can be summarized as follows:
+
+#figure(
+  image("images/figure_1.2.3.png"),
+) <figure_1_2_3>
+
+#definition(title: "Discounting Interest")[
+  $ A(0) = P V  = A(t) / (1 + r)^n $ 
+]
+
 #linebreak()
 
 == Nominal Rates of Interest
 
 #linebreak()
 
+So far, our examples of compound interest assume that the interest is received and reinvested at the end of each year.
+
+In many cases, that actual frequency of interest payments may be more often than annually.
+
+#example[
+  Many banks pay interest at the end of each month, so the interest received is reinvested monthly
+]
+
+We would say the interest on the account *_compounds monthly_*.
+
+#note-box[
+  $i^m$ means a nominal or stated annual rate compounded $m$ times per year. 
+
+  So, $i^2 = 10%$ means that the nominal rate is $10%$, compounded twice a year.
+
+]
+
+#example[
+    The $\$1$ in my account (student poverty) will grow by $5%$ in the first $6$ months, then the new principal will grow by another $5%$ in the next six months.
+]
+
+#figure(
+  image("images/figure_1.3.4.png"),
+) <figure_1_3_4>
+
+$ A = \$1(1 + (10%) / 2)^2 = \$1.1025 $ 
+
+We can generalize for an initial principal, $P$, we will accumulate a final value, $A$, when invested at $i^m$ for $n$ periods
+
+#definition(title: "Nominal Interest")[
+  $ A = P(1 + (i^m) / m)^n $
+]
+
+#caution-box[
+  The principal is invested for n periods, not years. This makes sense, since each period, the principal is earning only $(i^m) / m$
+]
+
+#linebreak()
+
+Given nominal rate we know that $i^2 != i^(12)$. As a result it is not immediately obvious which generate a higher accumulated value, $i^10 = 10%$ or $i^1 = 11%$. 
+
+We need to compare rates on an equivalent basis.
+
 #definition(title: "Equivalent Rates")[
 
-  Two rate are called #strong[equivalent] if a given amount of principal invested for the same length of time at either rate produces the same accumulated values. 
+Two rate are called #strong[equivalent] if a given amount of principal invested for the same length of time at either rate produces the same accumulated values. 
 ]
+
+#corollary[
+
+  If you are going from any $m$ to $n$ where $m > n$ $(i^m #sym.arrow.r i^n)$ we should see the nominal rate in terms of $n$ be greater 
+]
+#definition(title: "Effective Annual Rate - EAR")[
+
+  Annually compounded rate that is equivalent to the given nominal rate is called the *effective annual rate*
+
+  // $ (1 + i^m / m )^m - 1 = E A R $ 
+]
+
+== Varying Rates of Interest
+
+#linebreak()
+
+Varying rates of interest examine interest rates that vary over the life of an investment.
+
+#linebreak()
+
+#problem[
+  Suppose $\$200$ dollars is invested in an account that pays $i^1 = 5%$ for the first $2$ years, followed by $i^1 = 8%$ for the next $3$ years. Find the accumulated value.
+]
+
+#solution[
+  Drawing a timeline of the values helps make this a bit more clear.
+
+  #figure(
+    image("images/figure_1.4.5.png"),
+  ) <figure_1_4_5>
+
+  Now we can compute $A(2)$ by 
+
+  $ A(2) = \$200(1 + 5%)^2 $
+
+  and we also have 
+
+  $ A(5) = A(2)(1 + 8%)^3 $ 
+
+  Putting these together gives 
+
+  $ A(5) = \$200(1 + 5%)^2(1 + 8%)^3 = \$277.77 $
+]
+
+#linebreak()
+
+== Dated Values
+
+#linebreak()
+
+Dated values are similar to equivalent values 
+
+#definition(title: "Equivalent Values")[
+
+  If we move two values into the same *focal point* or *focal date* they are equivalent values
+]
+
 
 
