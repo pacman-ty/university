@@ -1,6 +1,6 @@
 # Starting a new doc
 
-```
+```typst
 #import "@preview/theorion:0.4.0": *
 #import cosmos.fancy: *
 // #import cosmos.rainbow: *
