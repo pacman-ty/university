@@ -15,3 +15,9 @@
 #set heading(numbering: "1.")
 #outline()
 ```
+
+# Other things to consider
+
+If you are using neovim check out [typst-preview plugin](https://github.com/chomosuke/typst-preview.nvim)
+
+don't forget to compile your typst doc if it is not previewing properly or at all.
