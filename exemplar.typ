@@ -9,6 +9,9 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
+#set heading(numbering: "1.")
+#outline()
+
 /// 1. Change the counters and numbering:
 // #set-inherited-levels(1)
 // #set-zero-fill(true)
