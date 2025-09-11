@@ -1,7 +1,7 @@
 #import "@preview/theorion:0.4.0": *
-// #import cosmos.fancy: *
+#import cosmos.fancy: *
 // #import cosmos.rainbow: *
- #import cosmos.clouds: *
+// #import cosmos.clouds: *
 #show: show-theorion
 
 #set page(height: auto)
@@ -9,10 +9,32 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
-#set heading(numbering: "1.")
-#outline()
+#let title-page(title:[], email:[], name:[], fill: yellow, body) = {
+  //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
+  set heading(numbering: "1.1.1")
+  line(start: (0%, 0%), end: (8.5in, 0%), stroke: (thickness: 2pt))
+  align(horizon + left)[
+    #text(size: 24pt, title)\
+    #v(1em)
+    Fall 2025 -  Brent Matheson  
+    #v(2em)
+    #name, #linebreak() #link(email)
+  ]
+  
+  align(bottom + left)[]
+  pagebreak()
+  set page(fill: none, margin: auto)
+  align(outline(indent: auto))
+  pagebreak()
+  body
+}
 
-#pagebreak()
+#show: body => title-page(
+  title: [ACTSC 221 Course Notes],
+  name: [Talha Yildirim],
+  email: "mailto: tyildir@uwaterloo.ca",
+  body
+)
 
 
 = Introduction to Interest
@@ -21,7 +43,7 @@
 
 #linebreak()
 
-#figure(
+#figure
   image("images/figure_1.png"),
   caption: [Calculating interest],
 ) <figure_1>
@@ -29,7 +51,6 @@
 #linebreak() 
 
 #definition(title: "Effective Rate of Interest")[
-
   The effective rate of interest is the amount of interest earned (or paid) during the period divided by the initial principal amount, assuming the interest is received (or paid) at the end of the period.
 ] <eri>
 
