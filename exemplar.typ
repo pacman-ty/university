@@ -9,6 +9,8 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
+
+
 #let title-page(title:[], email:[], name:[], fill: yellow, body) = {
   //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
   set heading(numbering: "1.1.1")
@@ -35,6 +37,16 @@
   email: [tyildir [ at ] uwaterloo [ dot ] ca],
   body
 )
+
+// order important so it doesnt effect content and title page 
+
+#set page(header: [
+  _ACTSC 221 Course Notes_
+  #h(1fr)
+  Talha Yildirim $<$$3$ 
+])
+
+#set page(numbering: "1 of 1")
 
 /// 1. Change the counters and numbering:
 // #set-inherited-levels(1)
