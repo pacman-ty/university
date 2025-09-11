@@ -9,6 +9,14 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
+#set page(header: [
+  _ACTSC 221 Course Notes_
+  #h(1fr)
+  Talha Yildirim $<$$3$ 
+])
+
+#set page(numbering: "1 of 1")
+
 #let title-page(title:[], email:[], name:[], fill: yellow, body) = {
   //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
   set heading(numbering: "1.1.1")

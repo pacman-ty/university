@@ -9,11 +9,19 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
+#set page(header: [
+  _ACTSC 221 Course Notes_
+  #h(1fr)
+  Talha Yildirim $<$$3$ 
+])
+
+#set page(numbering: "1 of 1")
+
 #let title-page(title:[], email:[], name:[], fill: yellow, body) = {
   //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
   set heading(numbering: "1.1.1")
   line(start: (0%, 0%), end: (8.5in, 0%), stroke: (thickness: 2pt))
-  align(horizon + left)[
+    align(horizon + left)[
     #text(size: 24pt, title)\
     #v(1em)
     Fall 2025 - Collin Roberts
@@ -36,7 +44,10 @@
   body
 )
 
-= Software Life Cycle Models 
+
+
+
+= The Scope of Software Engineering
 
 == The Classical and Object Oriented Paradigms
 
@@ -124,6 +135,11 @@
   2. Fails to address growing costs of post-delivery maintenance
 ]
 
+#proposition(title: "Team Development Aspects")[
+  1. Communication becomes challenging when teams are far apart geographically, especially when they are in different time zones
+  2. Interpersonal problems can undermine team effectiveness 
+  3. If a call to a module written by another developer mentions the arguments in the wrong order
+]
 #linebreak()
 
 #proposition(title: "Ethical issues")[
@@ -138,3 +154,57 @@
     8. Self
 ]
 
+#linebreak()
+
+= Software Life Cycle Models
+
+==  Iteration and Incrementation 
+
+#linebreak()
+
+#proposition(title: "Idealized Software Development")[
+  #sym.nothing #sym.arrow.r Requirements #sym.arrow.r Analysis #sym.arrow.r Design #sym.arrow.r Implementation
+] 
+
+#linebreak()
+
+The _Classical model_ is nost effective when the IT team can work without accepting change to the requirements after the requirements are complete.
+
+Changing requirements negatively affects software:
+  - Quality
+  - Delivery dates 
+  - Budget
+
+#linebreak() 
+
+#definition(title: "Moving Target Problem")[
+  The *moving target problem* occurs when the requirements change while the sfotware is being developed
+]
+
+#definition(title: "Scope Creep")[
+  *Scope creep* or feature creep is a succession of small, almost trivial requests for additions to the requirements
+]
+
+#definition(title: "Fault")[
+  A *fault* is the observable result of a mistake made by any project staff member while working on any artifact 
+]
+
+#definition(title: "Regression Fault")[
+  A *regression fault* occurs when a change in one part of the software product induces a fault in an apparently unrelated part of the software product 
+]
+
+#definition(title: "Regression Test")[
+  A *regression test* provides evidence that we have not unintentionally changed something that we did not intend to change
+]
+
+#definition(title: "Miller's Law")[
+  *Miller's Law* states that, at any one time, a human is only capable of concentrating on approximately seven chunks of Integration
+]
+
+#remark[
+  Miller's Law Applied:
+
+  - Any large project will have much more then $7$ components
+  - Hence we must start by working on $<= 7$ important components first temporarily ignoring the rest
+  - This technique is known as *stepwise refinement*
+]
