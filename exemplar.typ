@@ -18,7 +18,7 @@
     #v(1em)
     Term Year - Instructor
     #v(2em)
-    #name, #linebreak() #link(email)
+    #name, #linebreak() #email
   ]
   
   align(bottom + left)[]
@@ -32,7 +32,7 @@
 #show: body => title-page(
   title: [Course Name Course Notes],
   name: [Talha Yildirim],
-  email: "mailto: tyildir [ at ] uwaterloo [ dot ] ca",
+  email: [tyildir [ at ] uwaterloo [ dot ] ca],
   body
 )
 

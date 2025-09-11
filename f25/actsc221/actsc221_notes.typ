@@ -18,7 +18,7 @@
     #v(1em)
     Fall 2025 -  Brent Matheson  
     #v(2em)
-    #name, #linebreak() #link(email)
+    #name, #linebreak() #email
   ]
   
   align(bottom + left)[]
@@ -32,7 +32,7 @@
 #show: body => title-page(
   title: [ACTSC 221 Course Notes],
   name: [Talha Yildirim],
-  email: "mailto: tyildir@uwaterloo.ca",
+  email: [ tyildir [ at ] uwaterloo [ dot ] ca ] ,
   body
 )
 
