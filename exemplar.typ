@@ -9,10 +9,32 @@
 #set heading(numbering: "1.1")
 #set text(lang: "en")
 
-#set heading(numbering: "1.")
-#outline()
+#let title-page(title:[], email:[], name:[], fill: yellow, body) = {
+  //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
+  set heading(numbering: "1.1.1")
+  line(start: (0%, 0%), end: (8.5in, 0%), stroke: (thickness: 2pt))
+  align(horizon + left)[
+    #text(size: 24pt, title)\
+    #v(1em)
+    Term Year - Instructor
+    #v(2em)
+    #name, #linebreak() #link(email)
+  ]
+  
+  align(bottom + left)[]
+  pagebreak()
+  set page(fill: none, margin: auto)
+  align(outline(indent: auto))
+  pagebreak()
+  body
+}
 
-#pagebreak()
+#show: body => title-page(
+  title: [Course Name Course Notes],
+  name: [Talha Yildirim],
+  email: "mailto: tyildir [ at ] uwaterloo [ dot ] ca",
+  body
+)
 
 /// 1. Change the counters and numbering:
 // #set-inherited-levels(1)
