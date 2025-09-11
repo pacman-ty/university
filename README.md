@@ -13,15 +13,15 @@
 #set text(lang: "en")
 
 #let title-page(title:[], email:[], name:[], fill: yellow, body) = {
-  //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
+  set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
   set heading(numbering: "1.1.1")
   line(start: (0%, 0%), end: (8.5in, 0%), stroke: (thickness: 2pt))
   align(horizon + left)[
     #text(size: 24pt, title)\
     #v(1em)
-    Term Year - Instructor
+    Term Year - Instructor Name
     #v(2em)
-    #name, #linebreak() #link(email)
+    #name, #linebreak() #email
   ]
   
   align(bottom + left)[]
@@ -33,12 +33,21 @@
 }
 
 #show: body => title-page(
-  title: [Course Name Course Notes],
+  title: [Course Code Course Notes: \ Course Name ],
   name: [Talha Yildirim],
-  email: "mailto: tyildir [ at ] uwaterloo [ dot ] ca",
+  email: [ tyildir [ at ] uwaterloo [ dot ] ca ],
   body
 )
 
+// order important so it doesnt effect content and title page 
+
+#set page(header: [
+  _ACTSC 221 Course Notes_
+  #h(1fr)
+  Talha Yildirim $<$$3$ 
+])
+
+#set page(numbering: "1 of 1")
 ```
 
 # Other things to consider
