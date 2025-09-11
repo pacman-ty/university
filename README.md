@@ -35,7 +35,7 @@
 #show: body => title-page(
   title: [Course Name Course Notes],
   name: [Talha Yildirim],
-  email: "mailto: tyildir@uwaterloo.ca",
+  email: "mailto: tyildir [ at ] uwaterloo [ dot ] ca",
   body
 )
 
