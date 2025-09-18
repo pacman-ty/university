@@ -10,7 +10,7 @@
 #set text(lang: "en")
 
 #let title-page(title:[], email:[], name:[], fill: yellow, body) = {
-  //set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
+  set page(fill: rgb("#FFD700"), margin: (top: 1.5in, rest: 2in))
   set heading(numbering: "1.1.1")
   line(start: (0%, 0%), end: (8.5in, 0%), stroke: (thickness: 2pt))
   align(horizon + left)[
@@ -30,7 +30,7 @@
 }
 
 #show: body => title-page(
-  title: [ACTSC 221 Course Notes],
+  title: [ACTSC 221 Course Notes: \ Introductory Financial Mathematics],
   name: [Talha Yildirim],
   email: [ tyildir [ at ] uwaterloo [ dot ] ca ] ,
   body
@@ -51,7 +51,7 @@
 
 #linebreak()
 
-#figure
+#figure(
   image("images/figure_1.png"),
   caption: [Calculating interest],
 ) <figure_1>
@@ -260,7 +260,7 @@ Two rate are called #strong[equivalent] if a given amount of principal invested 
 
   Annually compounded rate that is equivalent to the given nominal rate is called the *effective annual rate*
 
-  // $ (1 + i^m / m )^m - 1 = E A R $ 
+  $ E A R = P V (1 + i^m / m )^n - 1 = i^1  $ 
 ]
 
 == Varying Rates of Interest
@@ -301,12 +301,200 @@ Varying rates of interest examine interest rates that vary over the life of an i
 
 #linebreak()
 
-Dated values are similar to equivalent values 
+The date we select to compute the values is often called the *focal point*, or *focal date*.
 
 #definition(title: "Equivalent Values")[
+  If we move two values into the same *focal point* or *focal date* they are equivalent values when:
 
-  If we move two values into the same *focal point* or *focal date* they are equivalent values
+  We say that $2$ different values $X$ and $Y$, where $Y$ is received $n$ periods later under a period interest of $i$ are *_equivalent_* if 
+
+  $ Y = X(1 + i)^n space "or equivalently" space X = Y(1 + i)^(-1) $
 ]
 
+#linebreak()
+
+#problem[
+  A person owes $\$100$ dollars in one year and an additional $\$500$ dollars is due in 5 years. What single payment $(a)$ now, $(b)$ in three years, will satisfy these obligations. Assume $i^1 = 10%$.
+]
+
+#solution[
+  We are being asked to find an amount either $(a)$ today, or $(b)$ in three years which is equivalent to the obligation we must pay.
+
+  Drawing a timeline, we let $X$ be the equivalent amount today that satisfies the obligations, and $Y$ be the equivalent amount in $3$ years that satisfies the obligations.
+
+  #figure(
+    image("images/figure_1.5.10.png", width: 70%),
+  ) <figrue_1_5_10>
+
+  So, 
+
+  $ X = (\$100) / (1 + 10%)^1 + (\$500) / (1 + 10%)^5 = \$401.37 $
+
+  Since we know the time value at time zero, it is easy to fin $Y$, the equivalent value at time $3$.
+
+  $ Y = X(1 + 10%)^3 = \$534.22 $
+
+  Alternatively, we can caompute the value $Y$ directly by looking at the time line We carry the $\$100$ forward $2$ periods, and the $\$500$ back $2$ periods, yielding 
+
+  $ Y = \$100(1 + 10%)^2 + (\$500) / (1 + 10%)^2 = \$534.22 $
+
+]
+
+#linebreak()
+
+== Unknown Rate and Time
+
+#linebreak()
+
+Recall our fundamental formula 
+
+$ F V = P V (1 + i^m / m)^n $
+
+#problem[
+  Find the rate $i^2$ such that $\$100$ dollars will grow to $\$1000$ dollars in $10$ years 
+]
+
+#solution[
+  We need to solve,
+
+  $ 1000 = 100(1 + i^2 / 2)^20 $
+
+  Dividing by $100$ and taking roots gives 
+
+  $ (1 + i^2 / 2) = (1000 / 100)^(1/20) = 1.122018 $
+
+  Solving for $i^2$ gives $i^2 approx.eq 24.4%$
+]
+
+#linebreak()
+
+#problem[
+  How long will it take for $\$100$ to grow to $\$1000$ if $i^4 = 10%$ 
+]
+
+#solution[
+  In this example, we need to solve for the number of periods, $n$, in the equation,
+
+  $ 1000 = 100(1 + (10%) / 4 )^n $
+
+  Dividing by $100$ and taking logs, gives
+
+  $ n times ln ( 1 + (10%) / 4) = ln (1000 / 100) $
+
+  Thus $n = 93.249958$ *periods*. Note this is periods, not years. Since we are solving for an interest rate that compounds quarterly (or $4$ times per year) we need to divide the number of periods by $4$ in order to determine the number of years.
+
+  Therefore, the answer in years is $T = n/4 = 23.3124896$ years 
+]
+
+#linebreak()
+
+== Doubling Time
+
+$ n = (ln 2) / (ln(1 + i)) $ 
+
+So, it takes $(ln 2) / (ln(1 + i))$ periods for money to double when invested at a period rate of $i$.
+
+#linebreak()
+
+== Inflation 
+
+#linebreak()
+
+#definition(title: "Real Rate of Return")[
+  The *Real Rate of Return* is defined to be the growth in purchasing power available after we consider the effects of inflation. This is distinct from the *nominal rate of interest*, which is the interest rate that does not adjust for inflation. When people speak of interest rates on a day-to-day basis, they are really talking about nominal rates.
+
+  $ (1 + i)  / (1 + r) $
+]
+
+#definition(title: "Real Rate of Interest")[
+  $ i_("real") = (1 - r) / (1 + r) $
+
+  or 
+
+  $ i_("real") = (i - r) / (1 + r) $
+]
+
+#linebreak()
+
+#problem[
+  Joe invests at $8%$ interest; however, Joe expects inflation to be $4%$. What is his real rate of return?
+]
+
+#solution[
+  Calculate 
+
+  $ i_("real") = (8% - 4%) / (1 + 4%) = 3.85% $
+
+  So, Joe is able to purchase $3.85%$ more goods at the end of the year than at the start of the year.
+]
+
+#linebreak()
+
+== Taxes 
+
+#linebreak()
+
+Taxation is applied to to the nominal rate then inflation punishes it
+
+Taxes are paid usually at a fixed rate of the interest earned.
+
+#definition(title: "After Tax Interest Rate")[
+  $ i_("after tax") = i(1 - T) $
+]
+
+Where $i$ is the nominal interest rate and $T$ is the tax rate.
+
+#linebreak()
+
+== Taxes and Inflation 
+
+#linebreak()
+
+We can now combine both the effects of taxes and inflation to calculate a *real after tax interest rate* which is given by,
+
+#definition(title: "Real After Tax Interest Rate")[
+  $ i_("real after tax") = (i(1 - T) - r) / (1 +)
+]
+= Rates of Discount 
+
+#linebreak()
+
+#figure(
+  image("images/figure_1.8.11.png"),
+)
+
+When interest is paid at the start of the loan we call it a *rate of discount* and it is denoted by the letter $d$.
+
+So if the loan principal is $P$, the amount you will receive today is then
+
+$ "Amount Recieved" = "Principal" - "Interest" = P - P times d = P (1 - d) $
+
+#linebreak()
+
+#problem[
+  Suppose a $1$ year discount loan with principal value of $\$100$ is made at a rate of discount of $5%$. How much money will be advanced on the loan today?
+]
+
+#solution[
+  The interest amout is $5% times \$1000 = \$50$. This amount will be charged today, so you will recieve today the remainder, whcih is $\$1000 - \$50 = \$950$.
+
+  Alternatively, we can computer the amount directly by the formula,
+
+  $ "Amount" = \$1000 times (1 - 5%) = \$950 $
+]
+
+#linebreak()
+
+The *effective rate of discount over period* $n$, denoted $d_n$, is the ratio of the cost of the loan (or the amount of interest) to the amount at the end of the year. Thus,
+
+#definition[
+  $ d_n = (A(n) - A(n -1)) / (A(n)) $
+]
+
+Recall the effective rate of interest is given by,
+
+#definition[
+  $ i_n = (A(n) - A(n -1)) / A(n) $
+]
 
 

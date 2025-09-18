@@ -149,3 +149,33 @@ What guarantees are there on a $F P$ arithmetic operation?
 
   $ (a plus.circle b) plus.circle c = a plus.circle ( b plus.circle c) = f l (a + b +c) $ 
 ]
+
+#linebreak()
+
+= Interpolation and Splines 
+
+#definition(title: "Interpolation")[
+  To estimate a value of a function or a series between two known values
+]
+
+#definition(title: "Interpolating a 1D function")[
+  Suppose we have a set of discrete samples of some unknown function. That is, we are given a set of $x$-values, ${x_1, x_2, space dots, x_n}$ ($x_i$ distinct) and corresponding set of $y$-values, ${y_1, y_2, space dots, y_n}$ 
+
+  Interpolation is the act of dining a function $f(x)$ such that 
+
+  In other words, the interpolation function ("interpolant") passes through the data points $(x_i, y_i)$ for $i = 1, 2, ..., n$
+]
+
+#definition(title: "Polynomial Interpolation")[
+  In general, the interpolant $f(x)$ can be any function. If $f(x)$ is chosen to be a polynomial, we call it "polynomial interpolation"
+]
+
+#theorem[
+  Given $n$ data points $(x_i, y_i)$ with $i = 1, 2, ..., n$ and $x_i != x_j$ if $i != j, space exists ! space $ polynomial of degree at most $n -1$ 
+
+  $ p(x) = c_1 + c_2 x + c_3 x^2 + dots + c_n x^(n - 1) $ 
+
+  such that 
+
+  $ p(x_i) = y_i , i = 1, 2, dots, n $
+]
