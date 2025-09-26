@@ -501,3 +501,331 @@ Using UML diagrams effectively helps to mitigate such problems with requirements
 1. This is triggered when post delivery maintenance is no longer feasible or cost effective 
 2. Usually a software product is replaced at this point
 3. True retirements are rare
+
+#linebreak()
+
+== Unified Process Part II 
+
+#linebreak()
+
+#highlight[*The Interaction Between Phases and Workflows*]
+
+1. Phases have a *time orientation*
+2. workflows have a *task orientation*
+
+Why separate the 2?
+
+Moving target problem with iteration and incrementation leads to the splitting of tasks and time, which in turn leads us to the unified process.
+
+#remark[
+  *Goal:*
+  Determine whether it is worthwhile to develop the target software product. Is it economically viable to build it?
+]
+
+#linebreak()
+
+
+#highlight[*Requirements Workflow - Key steps*]
+
+1. Understand what is 
+
+#definition(title: "Domain")[
+  The domain of a software product is the place 
+
+  e.g. TV station, hospital air traffic
+]
+
+2. Build 
+
+#definition(title: "Business Model")[
+  A business model is a description of the clients business process
+]
+
+3. Determine the project scope 
+
+4. The developers make the initial
+
+#definition(title: "Business Case")[
+  A *business case* is a document which answers these questions
+
+  1. Is the proposed software cost effective? Will the benefits outweigh the costs? In what time frame? What are the costs of not developing the software?
+
+  2. Can the proposed software be delivered on time? What impacts will be realized is the software is delivered late?
+
+  3. What risks are involved in developing the software, and how can these risks be mitigated? 
+]
+
+#linebreak()
+
+#corollary(title: "Major Risk Categories")[
+  1. Technical risks
+  2. Bad Requirements
+  3. Bad Architecture 
+]
+
+#linebreak()
+
+#highlight[*Analysis Workflow*]
+
+*Goal:* Extract the information need to design the architecture 
+
+#linebreak()
+
+#highlight[*Design Workflow*] 
+
+1. Create the design 
+2. Answer all questions required to start implementation
+
+#linebreak()
+
+#highlight[*Implementation Workflow*]
+
+1. Usually little to no coding happens during the inception phase 
+2. Sometimes it will be necessary to build a proof-of-concept prototype 
+
+#linebreak()
+
+#highlight[*Test Workflow*]
+
+*Goal:* Ensure that the requirements artifacts are correct
+
+#linebreak()
+
+#highlight[*Deliverables from the Inception Phase*]
+
+1. Initial version of the domain model 
+2. Initial version of the business model 
+3. Initial version of the requirements artifacts 
+4. Initial version of the analysis artifacts 
+5. Initial version of the architecture 
+6. Initial list of risks 
+7. Initial use cases 
+8. Plan for Elaboration phases 
+9. Initial version of the business case 
+  - Software is to be marketed this includes revenue projections, market estimates, initial cost estimates, etc
+  - If software is to be used in-house, this includes the initial cost/benefit analysis
+
+#linebreak()
+
+#highlight[*Elaboration Phase*]
+
+*Goals:*
+
+1. Refine the initial requirements
+2. Refine the architecture 
+3. Monitor risk and refine their priorities 
+4. Refine the business case
+5. Produce the SPMP
+
+*Deliverables:*
+
+1. The completed domain model
+2. The completed business model
+3. The completed requirements artifacts 
+4. The completed analysis artifacts 
+5. Updated the version of the architecture 
+6. Updated the list of risks 
+7. SPMP
+8. The completed business case 
+
+#linebreak()
+
+#highlight[*Construction Phase*]
+
+*Goal:* 
+
+Produce the first operational-quality version of the software product (the *beta* release)
+
+*Deliverables:*
+
+1. Initial user manual and other manuals
+2. Completed version of the architecture 
+3. Updated list of risks 
+4. SPMP updated 
+5. If needed, the revised business case
+
+#linebreak()
+
+#highlight[*Transition Phase*]
+
+*Goal:*
+
+Ensure the clients requirements have been met
+
+*Deliverables:* 
+
+1. Final versions of all the artifacts
+2. Final versions of all manuals / other documentation
+
+#linebreak()
+
+== One versus Two Dimensional Life-Cycle Models
+
+#linebreak()
+*Question:* 
+
+Can one's "position" in the Life-Cycle be described along only one axis, or does it need two axes 
+
+*Example:*
+
+#figure(
+  image("images/1d2dmodels.png"),
+)
+
+#remark[
+  1. Two dimensional models are more complicated, but we cant avoid them, especially the Unified Process 
+  2. The Unified Process is the best model we have so far, but it will be surpassed in the future 
+]
+
+#definition(title: "Capability Maturity Models")[
+  CMMs are related group of strategies for improving the software process, irrespective of the choice of Life-Cycle model used. 
+
+  1. Software-CMM (our focus)
+  2. People-CMM
+  3. Systems Engineering
+  4. Integrated Product Development-CMM 
+  5. Software Acquisition-CMM
+
+  These form CMM Integration (CMMI)
+]
+
+#definition(title: "Software Capability Maturity Models")[
+  Use of new software techniques alone will not result in increased productivity and profitability, because our problems stem from how we manage the software process. Improving our management of the software process should drive improvements in productivity and profitability
+]
+
+#linebreak()
+
+== Levels of CMM 
+
+#linebreak()
+An organization advances incrementally through five levels of maturity 
+
+1. *Initial*
+  1. No sound software engineering practices are in place
+  2. Most projects are late and over budget 
+  3. Most activities are responses to crises, rather than preplanned tasks 
+
+2. *Repeatable*
+  1. Basic Software Project Management practices are in place 
+  2. Some measurements are taken 
+  3. Managers identify problems as they arise and take immediate corrective action to prevent them from becoming crises 
+
+3. *Defined* 
+  1. The process for software production is fully documented 
+  2. There is continual process improvement 
+  3. Reviews are used to achieve software quality goals
+  4. CASE environments increase quality / productivity further
+
+#definition(title: "Computer Aided/Assisted Software Engineering (CASE)")[
+  CASE stands for Computer Aided / Assisted Software Engineering
+]
+
+4. *Managed*
+  1. The organization sets quality productivity goals for each software project 
+  2. Both are measured continually and corrective action is taken when there are unacceptable deviations 
+  3. Typical measure: faults / 1000 lines of code, in some time interval 
+
+5. *Optimizing*
+  1. The goal is continual process improvement 
+  2. Statically quality / process control techniques are used to guide the organization 
+  3. Positive Feedback Loop: Knowledge gained from each project is used in future projects. Therefore productivity and quality steadily improve
+
+
+#linebreak  
+
+= Teams
+
+== Team Organization 
+
+#linebreak()
+To develop a software product of any significant size a team is required 
+
+Suppose that a software product requires 12 person months to build it. Does it follow that 4 programmers could complete it in 3 months?
+
+*No!!*
+
+1. There are new issues once a team is involved 
+2. Not all programming tasks can be fully shared in time or sequencing 
+
+#definition(title: "Brook's Law")[
+  Brooks Law states that adding programmers to an already late project makes it later 
+]
+
+#definition(title: "Classical Chief Programmer Team")[
+  A classical Chief Programmer Team is a team organized according to some variation of the above picture, possibly with fewer or more programmers, and having the following roles
+
+  *Chief Programmer:*
+  - Highly skilled programmer 
+  - Successful manager
+  - Does architectural design
+  - Writes critical / complex sections of the code 
+  - Handles all interface issues 
+  - Reviews the work of all team member 
+  - Handles all interface issues 
+  - Reviews the work of all team members
+
+  *Backup Programmer*
+  - Needed in case chief programmer wins the lottery, gets sick, falls under a bus, etc
+  - As competent as the chief programmer in all respects 
+  - Does tasks independet of design process 
+
+  *Programmer Secretary (Librarian)*
+  - Maintain the production library, including all project docuemtnation 
+
+  *Programmer*
+  - They just program 
+]
+
+#remark[
+  What are the strengths and weaknesses of Classical Chief Programmer Teams?
+
+  *Strengths:*
+  - Lots of success in a couple cases 
+
+  *Weaknesses:*
+  - Chief/backup programmers are hard to find 
+  - Secretaries are also hard to find 
+  - The progammers may be frustrated at being "second class citizens" under thus model 
+]
+
+#definition(title: "Egoless Programming")[
+  1. Code belongs to the team as a whole, not any individual 
+  2. Finding faults is encouraged 
+  3. Reviewers show appreciation at being asked for advice, rather than ridiculing programmers for making mistakes 
+]
+
+#definition(title: "Democratic Team")[
+  A team of $<= 10$ egoless programmers constitues a democratic team 
+
+  *Possible Managerial Issues:*
+  1. For such collaboration to flourish, there must be a strong culture of open communication 
+  2. The path for career advancement may not be clear
+
+  *Strengths:*
+  1. Rapid detection of faults $arrow.r$ higher quality code 
+  2. Addresses the problem of programmers being overly attached to their own code
+
+  *Weaknesses:*
+  1. Managerial issues 
+  2. It is hard to create such a team
+  3. A certain organizational cuture is required for such a team
+]
+
+== Chief Programmer and Democratic Teams 
+
+Chief and Democratic are opposite ends of the spectrum 
+
+*Classical Chief Programmer:* 
+- Very heirarchical  
+- Little individual freedom
+
+*Deomcratic:*
+- Little to no hierarchy 
+- Much individual freedom 
+
+#linebreak()
+
+#highlight[*A Conflict Inherent in the Chief Programmer Model*]
+- The Chief Programmer must attend all code reviews. They are responsbile for every line of code as, as tje Technical Manager of the team 
+
+- *Resolution:* Split the Chief programmer role into a Team Manager (non-technical) and Team Leader (technical)

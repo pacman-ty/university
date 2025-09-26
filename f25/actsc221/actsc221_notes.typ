@@ -60,6 +60,12 @@
 
 #definition(title: "Effective Rate of Interest")[
   The effective rate of interest is the amount of interest earned (or paid) during the period divided by the initial principal amount, assuming the interest is received (or paid) at the end of the period.
+
+  Generalizing this to the $n^(t h)$ period between time $(n - 1)$ and $n$, we have that $i_n$, which is the effective rate of interest earned over the $n^(t h)$ period is given by:
+
+$
+i_n = (A(n) - A(n -1)) / A(n-1) = I_n / A(n -1) = "Interest" / "Amount at the Start"
+$
 ] <eri>
 
 #linebreak()
@@ -74,14 +80,6 @@
 
   We both have an effective rate of interest of $E I = 10 / 100 = 10%$, yet it is clear the I got a better return on investment since my investment took $1 / 3$ the time to reach the same accumulated value.  
 ]
-
-#linebreak()
-
-Generalizing this to the $n^(t h)$ period between time $(n - 1)$ and $n$, we have that $i_n$, which is the effective rate of interest earned over the $n^(t h)$ period is given by:
-
-$
-i_n = (A(n) - A(n -1)) / A(n-1) = I_n / A(n -1) = "Interest" / "Amount at the Start"
-$
 
 #linebreak()
 
@@ -453,11 +451,16 @@ Where $i$ is the nominal interest rate and $T$ is the tax rate.
 We can now combine both the effects of taxes and inflation to calculate a *real after tax interest rate* which is given by,
 
 #definition(title: "Real After Tax Interest Rate")[
-  $ i_("real after tax") = (i(1 - T) - r) / (1 +)
+  $ i_("real after tax") = (i(1 - T) - r) / (1 + r) $ 
 ]
-= Rates of Discount 
 
 #linebreak()
+
+== Rates of Discount 
+
+#linebreak()
+
+In some cases cases, the interest is paid at the start of the loan, and we say that it is being paid *in advance*.
 
 #figure(
   image("images/figure_1.8.11.png"),
@@ -487,14 +490,72 @@ $ "Amount Recieved" = "Principal" - "Interest" = P - P times d = P (1 - d) $
 
 The *effective rate of discount over period* $n$, denoted $d_n$, is the ratio of the cost of the loan (or the amount of interest) to the amount at the end of the year. Thus,
 
-#definition[
+#definition(title: "Effective Rate of Discount over Period n")[
   $ d_n = (A(n) - A(n -1)) / (A(n)) $
 ]
 
 Recall the effective rate of interest is given by,
 
 #definition[
-  $ i_n = (A(n) - A(n -1)) / A(n) $
+  $ i_n = (A(n) - A(n -1)) / A(n - 1) $
 ]
+
+In summary discount is paid at the *beginning* of the year based on the balance at the *end* of the year; while interest is paid at the *end* of the year, based on the balance at the *beginning* of the year.
+
+#remark[
+  Rates of discount and rates of interest are different!
+]
+
+#definition(title: "Rate of Discount to Rate of Interest Conversion")[
+  $ i = d / (1 - d) $
+]
+
+#definition(title: "Future Value given Compounded Rate of Discount")[
+  $ A(t) = (A(0)) / (1 -d)^t $
+]
+
+
+== T-Bills 
+
+#linebreak()
+
+T-bills pay do not pay interest in the conventional way. Instead, they are issued at a
+discount to the face value (or maturity value) and the difference is essentially interest. For example, a T-bill might have a maturity value of $\$1000$ (meaning the government will pay the holder $\$1000$ on the maturity date), but the T-bill would be issued to the public for a lesser amount, say $\$975$. So, a purchaser of the T-bill could buy it for $\$975$ and then redeem it later for $\$1000$. The difference is essentially the interest.
+
+#linebreak()
+
+*Canadian T-Bills*
+
+#problem[
+  Compute the price of a 91 day T-bill if the rate is $5%$. Assume a face value of $\$1,000$
+]
+
+#solution[
+  To find the value, we compute
+
+  $ P = (\$1000) / (1 + 91 / 365 5%)  = 987.69 $
+]
+
+#linebreak()
+
+*American T-Bills*
+
+Instead of using simple interest, US T-bills use simple discount conventions. More specifically, the price is computed by discounting the face value using simple discount and dividing the exact number of days by $360$
+
+#linebreak()
+
+#problem[
+  Compute the price of a $91$ day US T-bill if the rate is $5%$. Assume a face value of $\$1,000$
+]
+
+#solution[
+  To find the value, we compute
+
+  $ P = \$1000(1 - 91 / 360 5%) = 987.36 $
+]
+
+#linebreak()
+
+= Annuities
 
 
