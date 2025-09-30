@@ -767,10 +767,10 @@ Suppose that a software product requires 12 person months to build it. Does it f
   *Backup Programmer*
   - Needed in case chief programmer wins the lottery, gets sick, falls under a bus, etc
   - As competent as the chief programmer in all respects 
-  - Does tasks independet of design process 
+  - Does tasks independent of design process 
 
   *Programmer Secretary (Librarian)*
-  - Maintain the production library, including all project docuemtnation 
+  - Maintain the production library, including all project documentation 
 
   *Programmer*
   - They just program 
@@ -785,7 +785,7 @@ Suppose that a software product requires 12 person months to build it. Does it f
   *Weaknesses:*
   - Chief/backup programmers are hard to find 
   - Secretaries are also hard to find 
-  - The progammers may be frustrated at being "second class citizens" under thus model 
+  - The programmers may be frustrated at being "second class citizens" under thus model 
 ]
 
 #definition(title: "Egoless Programming")[
@@ -795,7 +795,7 @@ Suppose that a software product requires 12 person months to build it. Does it f
 ]
 
 #definition(title: "Democratic Team")[
-  A team of $<= 10$ egoless programmers constitues a democratic team 
+  A team of $<= 10$ egoless programmers constitutes a democratic team 
 
   *Possible Managerial Issues:*
   1. For such collaboration to flourish, there must be a strong culture of open communication 
@@ -808,24 +808,60 @@ Suppose that a software product requires 12 person months to build it. Does it f
   *Weaknesses:*
   1. Managerial issues 
   2. It is hard to create such a team
-  3. A certain organizational cuture is required for such a team
+  3. A certain organizational culture is required for such a team
 ]
 
+#linebreak()
+
 == Chief Programmer and Democratic Teams 
+
+#linebreak()
 
 Chief and Democratic are opposite ends of the spectrum 
 
 *Classical Chief Programmer:* 
-- Very heirarchical  
+- Very hierarchical  
 - Little individual freedom
 
-*Deomcratic:*
+*Democratic:*
 - Little to no hierarchy 
 - Much individual freedom 
 
 #linebreak()
 
 #highlight[*A Conflict Inherent in the Chief Programmer Model*]
-- The Chief Programmer must attend all code reviews. They are responsbile for every line of code as, as tje Technical Manager of the team 
+- The Chief Programmer must attend all code reviews. They are responsible for every line of code as, as the Technical Manager of the team 
 
 - *Resolution:* Split the Chief programmer role into a Team Manager (non-technical) and Team Leader (technical)
+
+#linebreak()
+
+== Open Source 
+
+#linebreak()
+
+*Why might people not want to participate in open source projects?*
+
+- Unpaid 
+- Philosophical disagreements about direction 
+- You don't own the code and can't monetize it 
+- You give up control over the finished product and give away your effort 
+
+*Why might you contribute to an open source project?*
+
+- Fix a bug your facing 
+- You believe in the product / it has value to you 
+- You admire the lead maintainer 
+- You feel better "making the world a better place"
+- Learning experience for your next job 
+
+#linebreak()
+
+=== Morals 
+
+1. For success, high quality programmers are required. They can succeed even in an environment as unstructured as open source one typically is
+
+2. Provided \#1 holds, the way that a successful open source project team is organized is essentially irrelevant to the success or failure of the project 
+
+
+
