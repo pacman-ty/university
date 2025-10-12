@@ -554,8 +554,352 @@ Instead of using simple interest, US T-bills use simple discount conventions. Mo
   $ P = \$1000(1 - 91 / 360 5%) = 987.36 $
 ]
 
-#linebreak()
+#pagebreak()
 
 = Annuities
 
+== Accumulated Value of Annuities 
 
+=== Simple Annuities 
+
+A simple annuity is a stream of payments made at regular intervals. Typically the payment amounts are all equal. 
+
+The simplest example is a stream of equal cash flows of $\$R$ each of which occurs at the end of each period for $n$ consecutive period.
+
+#figure(
+  image("images/figure211.png"),
+)
+
+#linebreak()
+
+=== Geometric Progression 
+
+#linebreak()
+
+
+A geometric progression is a finite sequence of terms where each term after the first is obtained by multiplying the previous term by a common ratio $r$.
+
+$
+S = a + a r + a r^2 + dots + a r^n 
+$
+
+where 
+- $a$ = first term 
+- $r$ = common ratio 
+- n + 1 = number of terms 
+
+#linebreak()
+
+Doing some math that is not shown we can derive the following 
+
+If $r > 1 $:
+
+$
+S =  (a(r^(n+1) - 1)) / (r - 1)
+$
+
+If $r < 1$:
+
+$
+S = (a(1 - r^(n + 1))) / (1 - r) 
+$
+
+#remark[
+  This formula is fundamental for valuing annuities and other financial calculations involving repeated, regularly spaced equivalent payments.
+]
+
+#linebreak()
+
+=== Accumulated Values of Simple Annuities 
+
+#linebreak()
+
+What makes an annuity *ordinary* is that the payments are due at the end of each period. What makes it *simple* is that the interest compounding period corresponds to the payment frequency. 
+
+The accumulated value of an ordinary simple annuity with $n$ payments of $\$1$ computed on the date of the last payment is given by $s n ceil.r i$, read as _"$s space n$ angle $i$"_
+
+
+#definition(title: "Future Value of Ordinary Simple Annuity")[
+  For simple an ordinary simple annuity of with:
+
+  - $n$ payments of amount $R$ 
+  - Interest rate $i$ per period 
+
+  We have,
+
+  $
+  F V = S = R times s_(n ceil.r i) = R times ((i + 1)^n - 1) / i 
+  $
+]
+
+#corollary(title: "Accumulation Factor")[
+  $
+  s_(n ceil.r i) = ((i + 1)^n - 1) / i 
+  $
+]
+
+#linebreak()
+
+== Present Value of Annuities and Loans
+
+=== Discounting Annuities
+
+#linebreak()
+
+The present value of an annuity with equal payments of $R$ is equal to
+
+#definition(title: "Present Value of Ordinary Simple Annuity")[
+  $
+  P V = R times (1 - (1 + i)^(-n)) / i 
+  $
+]
+
+#corollary(title: "Discount Factor")[
+  $
+  a_(n ceil.r i)  = (1 - (1 + i)^(-n)) / i 
+  $
+]
+
+
+Loans are a big area where we will use the discount factor for loan payment calculations
+
+#linebreak()
+
+=== Calcualating the Number of Payments
+
+#linebreak()
+
+The number of $n$ payments in an annuity can be found by equating the present value $P V$ of the loan or investment to the present value of the payment stream 
+
+Solving for n, 
+
+To find the number of payments:
+
+#definition(title: "The number of n payments required to pay of a loan")[
+  $
+    n = (-ln (1 - (P V times i) / R) / (ln (1 + i)))
+  $
+]
+
+Where 
+
+- $P V = $ Present value (loan amount)
+- $R = $ Payment per period 
+- $i = $ interest rate per period 
+
+#linebreak()
+
+*Payment Timing Adjustments*
+
+When $n$ is not a whole number, two methods are used to complete repayment
+
+#definition(title: "Balloon Payment")[
+  A slightly larger final payment made at the regular payment time to full repay the balance 
+
+  $
+    P V  = R times a_(n ceil.r i) + X(i + 1)^(- floor.l n floor.r)
+  $
+
+  Final Payment would be 
+
+  $
+    "Final Payment" = R + X
+  $
+]
+
+#definition(title: "Drop Payment")[
+  A smaller final payment made one period later to complete repayment
+
+  $
+    P V = R times a_(n ceil.r i) + X(1 + i)^(- floor.l n floor.r + 1)
+  $
+]
+
+
+#linebreak()
+
+== Different Focal Dates 
+
+#linebreak()
+
+A deferred annuity is like a regular annuity expect except the first payment is delayed by a certain number of periods
+
+Assume today is time $0$ and we have an annuity of $n$ payments of $\$1$ with the first payment occurring $m + 1$ periods in the future. We want to calculate the present value and accumulated value of this annuity.
+
+#figure(
+  image("images/figure2510.png")
+)
+
+#note-box[
+  If we choose time $m$ to be our focal date, then looking at the stream of cash flows at time m we have just an ordinary simple annuity. The present value of that annuity is given by $a_(n ceil.r i)$
+]
+
+To find the present value today (at time $0$) we need to discount this back $m$ periods. Thus 
+
+
+#definition(title: "Present value of deferred annuity at time m")[
+  $
+    P V = R times a_(n ceil.r i)
+  $
+]
+
+#definition(title: "Present value of deferred annuity at time 0")[
+  $
+    P V = R times (a_(n ceil.r i)) / ((1 + i)^m) = R times a_(n ceil.r i) times (1 + i)^(-m)
+  $
+]
+
+For accumulated value if we choose time n + m as our focal date then as of that date, the annuity just looks like a regular ordinary simple annuity, and hence its accumulated value is given by 
+
+#definition(title: "Accumulated value of deferred annuity at time n + m")[
+  $
+    A V = s_(n ceil.r i)
+  $
+]
+
+#warning-box[
+  In an ordinary annuity, the first payment occurs one period after the focal date
+]
+
+#linebreak()
+
+=== Annuities Due
+
+#linebreak()
+
+An *annuity due* is an annuity where the payments are made at the start of each period. Annuities due are denoted by $diaer(a)$ and $diaer(s)$
+
+#definition(title: "Present Value of Annuity Due")[
+  $
+    diaer(a)_(n ceil.r i) = R times (a_(n - 1 ceil.r i) + 1)
+  $
+]
+
+#definition(title: "Accumulated Value of Annuity Due")[
+  $
+    diaer(s)_(n ceil.r i) = R times (s_(n ceil.r i) (1 + i))
+  $
+]
+
+#linebreak()
+
+=== Final Comments 
+
+#linebreak()
+
+It is very easy for minions to get confused with all the different types of annuities. It is important to keep in mind that all of these annuities are really the same thing; a stream of cash flows equally spaced in time. The only differences we have seen is when the first cash flow occurs relative to today. 
+
+#linebreak()
+
+== Perpetuities 
+
+#linebreak()
+
+*Perpetuities* are annuities that continue to pay forever. In other words we consider a stream of payments R each period, with no final payment 
+
+#definition(title: "Present Value of Perpetuity")[
+  $
+    a_(infinity ceil.r i) = R / i 
+  $
+]
+
+#definition(title: "Accumulated Value of a Perpetuity")[
+  $
+    R / i (1 + i)^n
+  $
+]
+
+#definition(title: "Deferred Value of Perpetuity")[
+  $
+    R / i (1 + i)^(-m)
+  $
+]
+
+#linebreak()
+ 
+== Increasing Annuities
+
+#linebreak()
+
+Consider an annuity that has first payment $R$ and each subsequent payment increases by a factor of $(R + g)$, so payments are growing at a factor of $g$
+
+#note-box[
+  Common application of this is when the growth rate is the rate of inflation
+]
+
+#definition(title: "Present Value of a Growing Annuity")[
+  If $i != g$
+  $
+    P V = R times (1 - ((1 + g) / (1 + i))^n / (i - g)
+  $
+
+  If $i == g$
+
+  $
+    P V = R times 1 / (1 + i)
+  $
+
+]
+
+#definition(title: "Deferred Value of a Growing Annuity")[
+  If $i != g$
+
+  $
+    D V = R times (1 - ((1 + g) / (1 + i))^n / (i - g) times (1 + i)^(-m)
+  $
+
+  If $i == g$
+
+  $
+    D V = R times n / (1 + i)^(m + 1)
+  $
+]
+
+
+#definition(title: "Accumulated Value of a Growing Annuity")[
+  If $i != g$
+
+  $
+    A V = R times (1 - ((1 + g) / (1 + i))^n / (i - g) times (1 + i)^n
+  $
+
+  If $i == g$
+
+  $
+    A V = R times n times (1 + i)^(n - 1)
+  $
+]
+
+
+#linebreak()
+
+== Arithmetic Growth
+
+#linebreak()
+
+Payments start at $R$ and increase by $R times k$ for each period 
+
+#definition(title: "Present Value of an Arithmetic Growth Annuity")[
+  $
+    P V = (I_a)_(n ceil.r i) = R times (diaer(a)_(n ceil.r i) - n(1 + i)^(-n)) / i
+  $
+]
+
+#definition(title: "Deferred Value of an Arithmetic Growth Annuity")[
+  $
+    D V = (I_a)_(n ceil.r i) times (1 + i)^(-m)
+  $
+]
+
+#definition(title: "Accumulated Value of an Arithmetic Growth Annuity")[
+  $
+    A V = (I_s)_(n ceil.r i)  = (I_a)_(n ceil.r i) times (1 + i)^n = R times (diaer(a)_(n ceil.r i) - n(1 + i)^(-n)) / i times (1 + i)^n
+  $
+
+  Or equivalently,
+
+  $
+    A V = (I_s)_(n ceil.r i) = diaer(s)_(n ceil.r i) - n / i = s_(n + 1 ceil.r i) - (n + i) / i \ 
+    = R times 
+  $
+]
