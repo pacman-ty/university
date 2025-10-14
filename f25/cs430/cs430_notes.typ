@@ -857,11 +857,485 @@ Chief and Democratic are opposite ends of the spectrum
 
 #linebreak()
 
-=== Morals 
+== Morals 
 
 1. For success, high quality programmers are required. They can succeed even in an environment as unstructured as open source one typically is
 
 2. Provided \#1 holds, the way that a successful open source project team is organized is essentially irrelevant to the success or failure of the project 
 
+#figure(
+  image("images/figure47.png")
+)
+
+#figure(
+  image("images/figure472.png")
+)
+
+- There is no choice of team organization that is optimal in all situations
+
+#pagebreak()
+
+= Tools of the Trade 
+
+#linebreak()
+
+1. Stepwise Refinement 
+2. Cost Benefit Analysis 
+3. Divide and Conquer 
+4. Separation of Concern 
+5. Software Metrics 
+6. Taxonomy of CASE 
+7. Scope of CASE 
+8. Software Versions 
+  1. Revisions 
+  2. Variations 
+  3. Moral 
+9. Configuration Control 
+  1. Configuration Control During post-delivery maintenance
+  2. Baselines 
+  3. Configuration Control During Development 
+10. Build Tools 
+11. Productivity Gains with CASE Technology 
+
+#linebreak()
+
+== Stepwise Refinement
+
+#linebreak()
+
+#definition(title: "Stepwise Refinement")[
+  Stepwise Refinement is a technique by which we defer nonessential decisions until later, while focusing on the essential decisions first
+]
+
+- This is a response to Millers Law
+- *Key Challenge:* Decide which issues must be handled in the current refinement, and which can be deferred until a later refinement. 
+
+- Brainstorming can be used in early stages
+- Features of brainstorming
+  - The problem to be solved initially be unclear
+  - All team members are encouraged to speak, especially the shy ones 
+  - No editing in the first round, when ideas are being suggested 
+
+#linebreak()
+
+== Cost Benefit Analysis
+
+#linebreak()
+
+#definition(title: "Cost-Benefit Analysis")[
+  Cost Benefit Analysis is 
+
+  - A technique for determining whether a possible course of action would be profitable, in which we 
+    - Compare estimated future benefits against estimated future costs,
+    - Often referred to as the "balance sheet view"
+    - When selecting among several options the optimal choice maximizes the difference
+
+  $
+    ("estimated benefits") - ("estimated costs")
+  $
+]
+
+- *Pitfalls*
+  - We must quantify everything to start 
+  - Some things are easier to quantify than others 
+
+- *Tangible Benefits* 
+  - Tangible benefits are easy to measure, e.g. estimated revenue from launching a new product 
+
+- *Intangible Benefits*
+  - Intangible benefits can be more challenging to quantify, e.g. the reputation of your organization 
+
+#linebreak()
+
+== Divide and Conquer 
+
+#linebreak()
+
+#definition(title: "Divide and conquer")[
+  Is it break a large problem down into sub-problems, each of which is easier to to solve.
+]
+
+#definition(title: "Analysis Package")[
+  An analysis package is defined by: 
+  During the analysis workflow:
+
+  1. Partition the software product into analysis packages 
+  2. Each package consists of a set of related classes that can be implemented as a single unit
+]
+
+- During the design workflow:
+  - Partition the implementation workflow into corresponding manageable pieces, termed subsystems 
+- During the implementation workflow:
+  - Implement each subsystem in the chosen programming language 
 
 
+- *Divide and Conquer Key Problem:* There is no algorithm for deciding how to partition a software product into smaller pieces. Experience and human intuition are required.
+
+#linebreak()
+
+== Separation of Concerns 
+
+#linebreak()
+
+#definition(title: "Separation of Concerns")[
+  A software product has separation of concerns if it is broken in components that overlap as little as possible with respect to their functionalities
+]
+
+- Separation of concerns is the "new and improved" divide and conquer
+  - Guiding Principal: Reduce / eliminate overlap in functionalities between the subsystems created by dividing them 
+
+- *Motivation:*
+  - Minimize the number of regression faults. If separation of concerns is truly achieved then changing one module cannot affect another module 
+  - When done correctly this also facilitates reuse of modules in future software products 
+
+- *Manifestation of Separation of Concerns:* 
+  - Design technique of high cohesion
+  - Design technique of loose coupling 
+  - Encapsulation
+  - Information hiding 
+  - Three tier architecture
+
+#remark[
+  Separation of concerns is desirable for Software Engineering
+]
+
+#linebreak()
+
+== Software Metric 
+
+#linebreak()
+
+#definition(title: "Metric")[
+  A metric is anything that we measure quantitatively 
+]
+
+- We need metrics to detect problems early in the software process before they become crises 
+
+- Two types: 
+  - Product metrics: e.g. \# of lines of code 
+  - Process metrics: e.g. turn over rate
+
+- Five essential fundamental metrics for software project:
+ 1. Size (e.g. in \# lines of code)
+  2. Cost to develop / maintain (in dollars)
+  3. Duration to develop (in months)
+  4. Effort to develop (in person-months; or as in my experience in person days)
+  5. Quality (number of faults detected during the project)
+
+- Augment this list as appropriate for your project 
+
+- There is no universal agreement among software engineers which metrics are right
+
+#linebreak()
+
+== Taxonomy of CASE 
+
+#linebreak()
+
+- CASE stands for Computer Aided/Assisted Software Engineering
+- At present a computer is a tool of and not a replacement for a software professional 
+- CASE tools used tools during the 
+  - Earlier workflows are called front-end or upperCASE tools, and 
+  - Later workflows (implementation postdelivery maintenance) are called backend or lowerCASE 
+
+- Examples:
+  - Data dictionary 
+  - Consistency checker 
+  - Report Generator 
+  - Screen Generator 
+
+- Combining multiple tools creates a workbench 
+- Combining multiple workbenches creates an environment 
+- So our taxonomy is: tools (task level) $arrow.r$ workbenches (team level) $arrow.r$ environments (organization level)
+
+#linebreak()
+
+== Scope of CASE 
+
+#linebreak()
+
+Primary motivations for implementing CASE: 
+
+1. Produce high quality code 
+2. Have up to date documentation at all times 
+3. Automation makes maintenance easier 
+4. Do everything more quickly, hence more cheaply 
+
+Coding tools of Case: 
+ - Text editor 
+ - Debuggers 
+ - Formatters 
+
+- *Programming in the small:* Coding a single module 
+- *Programming in the large:* Coding at the system level
+- *Programming in the many:* Software production by a team 
+
+#definition(title: "Revision")[
+  A revision is created when a change is made, e.g. to fix a fault 
+]
+
+- Old revisions must be retained for reference
+  1. If a fault is found at a site still running the old revision
+  2. For auditing 
+
+#definition(title: "Variation")[
+  A variation is a slightly changed version that fulfills the same role in a slightly changed situation 
+]
+
+#remark[
+  A CASE tool is needed to effectively manage multiple revisions of multiple variations 
+]
+
+#definition(title: "Configuration")[
+  A configuration of a software product is a list, for every code artifact, of which version is included in the software product
+]
+
+#definition(title: "Configuration Control Tool")[
+  A configuration control tool is a CASE tool for managing configurations 
+]
+
+- *configuration Control:*
+  - *Motivation:* Fix software faults effectively 
+  - The first step towards fixing a problem is to recreate it in a development environment
+  - If many configurations are possible, then configuration control will be needed in order to recreate problem in a development environment
+  - Version control also facilitates ensuring that the correct versions get included when compiling / linking
+  - A common technique is to embed the version as part of the name 
+  - Adding details to a configuration yields a derivation of a software product 
+
+#definition(title: "Derivation")[
+  A derivation is a detailed record of a version of the software product including 
+
+  - The variation / revision of each code element (i.e. Configuration)
+  - The versions of the compilers/linkers used to assemble the product 
+  - the date / time of assembly
+  - The name of the programmer who created the version 
+]
+
+#remark[
+  A version control tool is required to effectively track derivations 
+]
+
+#highlight[*Configuration Control During Post-Delivery Maintenance*]
+
+- There is an obvious problem when a team maintains a software product 
+- Suppose that two programmers receive two different fault reports. Suppose further that fixing both faults requires changes to the same code artifact 
+- Without any new process in place, the programmer \#2 will undo programmer \#1 changes at deployment time 
+
+#highlight[*Baselines*]
+
+- When multiple programmers are working on fixing faults a baseline is needed 
+- A baseline is a set of versions of all the code artifacts in a project 
+- A programmer starts by copying the baseline files into a private workspace. The he can freely change anything without affecting anything else 
+- After the fault is fixed, the new code artifact is promoted to production, modifying the baseline 
+- The old, frozen version is kept for future reference, and can never be changed
+- This technique extends to multiple programmers and multiple code artifacts 
+
+#highlight[*Configuration Control During Development*]
+
+- During Development and Desk Checking, changes are too frequent for configuration control to be useful 
+- We definitely want configuration control to be in force by the time deploy to production 
+- The text author recommends that configuration control should apply once the code artifact is passed off to the QA team 
+- The same configuration control procedures as those for postdelivery maintenance should then apply 
+- Proper version control permits management to take corrective action if project deadlines start to slip 
+
+#definition(title: "Build Tool")[
+  A build tool selects the correct compiled code artifact to be linked into a specific version of the software product
+]
+
+#highlight[*Build Tools*]
+
+- Some organizations may not want to purchase a complete configuration control solution 
+
+- *Issue*
+  - While version control tools assists programmers in deciding which version of the source code is the latest, compiled code not not automatically get a version attached to it 
+
+#highlight[*Productivity Gains with CASE Technology*]
+
+- Research to date shows a modest gain in productivity following the introduction of CASE tools to an organization 
+- Other benefits of using CASE tools:
+  - Faster development 
+  - Fewer faults 
+  - Better usability 
+  - Easier maintenance 
+  - Improved morale on the IT team
+
+#figure(
+  image("images/figure514.png")
+)
+
+#pagebreak()
+
+= Testing - Non-Execution Based Testing
+
+#linebreak()
+
+
+- Quality Issues 
+  - Software Quality Assurance 
+  - Managerial Independence 
+- Non-Execution Based Testing 
+  - Reviews 
+  - Walkthroughs 
+  - Managing Walkthroughs 
+  - Inspections 
+  - Comparison of Walkthroughs and Inspections
+  - Strengths and Weaknesses of Reviews 
+  - Metrics for Inspections 
+
+#linebreak()
+
+== Quality Issues 
+
+#linebreak()
+
+#definition(title: "Failure")[
+  A failure is an observed incorrect behaviour of the software product cased by a fault 
+]
+
+#definition(title: "Error")[
+  Error is the amount by which the software product output is incorrect 
+]
+
+#definition(title: "Defect")[
+  A defect is a generic term for a fault failure or error 
+]
+
+#definition(title: "Quality")[
+  Quality describes the extent to which the software product satisfies its specification 
+]
+
+#linebreak()
+
+== Software Quality Assurance (QA)
+
+#linebreak()
+
+- Quality alone is not enough: software must be easily maintained.
+- QA must be built in throughout the project, not simply imposed by the QA group at the end of a workflow
+
+- Primary duty of a QA group: 
+  - The quality of the software process 
+  - The quality of the software product 
+- Once a workflow is complete, QA verify that all artifacts are correct
+
+#linebreak()
+
+== Managerial Independence 
+
+#linebreak()
+
+- Development and QA teams should be led by independent managers, neither of whom can overrule the other
+
+- Reason: Often faults are found towards end of deadlines. We must decide between 
+  - Delivering the software on time with faults
+  - Fixing the faults and delivering late  
+
+- Both most report to a third manager who must then make the decision about what to do on a case by case basis 
+
+#linebreak()
+
+== Review
+
+#linebreak() 
+
+#definition(title: "Review")[
+  A review is a walkthrough or an inspection 
+]
+
+- Common Features of All Reviews 
+  - Non-execution based testing 
+  - Centred around a meeting of key stakeholders
+  - Chaired by QA representative 
+  - The meeting is to test a document to identify, but not attempt to fix, faults in that document
+    - Committees solution is usually of lower than that of trained expert 
+    - Committees solution takes 4-6 times as much effort as individual 
+    - Not all faults identified during review are truly faults 
+    - Takes too much time 
+
+
+#linebreak()
+
+== Walkthroughs 
+
+#linebreak()
+
+- #highlight[The two steps for a walkthrough]
+  1. Preparation 
+  2. Team analysis of the document 
+
+- #highlight[4-6 participants]
+  1. QA (chair)
+  2. Manager responsible for requirements 
+  3. Manager responsible for analysis
+  4. Manager responsible for design 
+  5. Client representative 
+
+- #highlight[Two fundamental approaches to conducting a walkthrough]
+  1. Participant driven 
+  2. Document driven (more detailed, but time consuming)
+
+
+#linebreak()
+
+== Inspections 
+
+#linebreak()
+
+- #highlight[The five steps for an inspection:]
+1. *Overview* document author gives the overview
+2. *Preparation* participants examine the document
+3. *Inspection* quick document walkthrough
+4. *Rework* document author corrects all faults noted in the written report 
+5. *Follow Up* moderator ensures that every fault identified has been fixed and that no new faults were introduced in the process 
+
+- #highlight[Roles for an Inspection]
+  1. Moderator (QA)
+  2. Analyst (i.e. stakeholder, previous workflow)
+  3. Designer (i.e. Document author; stakeholder, current workflow)
+  4. Implementer (i.e. stakeholder, next workflow)
+  5. Tester (QA, a different person than the moderator)
+
+
+#linebreak()
+
+== Comparison of Walkthroughs and Inspections 
+
+#linebreak()
+
+Although inspections are more costly there is evidence that they are most effective at finding faults 
+
+#linebreak()
+
+== Strengths and Weaknesses of Reviews 
+
+#linebreak()
+
+- *Strengths*
+  - Effective at detecting faults, especially early in the life cycle when they are cheaper to fix 
+  
+- *Weaknesses*
+  - A large software products artifacts are hard to review unless they consists of smaller independent components
+  - Effectiveness of review team is hampered if not all documentation from the previous workflow is completed yet 
+
+#linebreak()
+
+== Metrics for Inspections 
+
+#linebreak()
+
+1. *Inspection Rate:*
+  - Requirements / design: \# of pages / hour 
+  - Code: \# of lines of code / hour 
+2. *Fault Density:*
+  - Requirements / design: \# of faults / page 
+  - code: \# of faults / 1000 lines of code 
+3. *Fault detection rate:*
+  - \# of faults detected / hour 
+4. *Fault detection efficiency:*
+  - \# of faults detected / person hour 
+
+
+#remark[
+  - Metrics attempt to measure our effectiveness at finding faults 
+  - Spike in faults might mean decrease in software quality, not increase in QA effectiveness 
+]
