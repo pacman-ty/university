@@ -1339,3 +1339,933 @@ Although inspections are more costly there is evidence that they are most effect
   - Metrics attempt to measure our effectiveness at finding faults 
   - Spike in faults might mean decrease in software quality, not increase in QA effectiveness 
 ]
+
+#pagebreak()
+
+= Testing - Execution Based Testing 
+
+#linebreak()
+
+1. *Execution Based Testing* 
+
+- Testing is a crucial part of any software development life-cycle 
+- However we must keep in mind that, testing can demonstrate the presence of faults in a software product, not their absence 
+
+remark[
+  Test cases are only as good as the tester selecting them. Things can get missed.
+]
+
+#definition(title: "Execution Based Testing")[
+  Execution Based Testing is a process of inferring certain behavioural properties of  software product, in part, on the results of running the software product in a known environment with selected inputs
+]
+
+#warning-box[
+  Troubling Details about the definition:
+
+  1. Testing is an *inferential* process: There is no algorithm for determining whether faults are present. A test run with all correct results may simply fail to expose faults
+
+  2. What do we mean by known environment? : We can never fully know our environment. Even if software is perfect there could be a hardware fault.
+
+  3. What do we mean by selecting inputs? : With real time system no control over the inputs is possible 
+]
+
+#definition(title: "Utility")[
+  The *utility* of a software product is the extent to which the software product meets the users needs when operated under conditions permitted by its specification
+]
+
+#remark[
+  If a software product fails a test of its utility then testing should proceed no further
+]
+
+#definition(title: "Reliability")[
+  The reliability of a software product measures the frequency and severity of its failures
+
+  1. Mean time between failures: long times $arrow.r$ more reliable
+  2. Mean time to repair failures: Long times $arrow.r$ less reliable
+]
+
+1. *Robustness*
+
+- Range of operating conditions, beyond outside its specifications 
+- Produces acceptable output given acceptable input 
+- Produces acceptable output given unacceptable input 
+
+2. *Performance*
+
+- Its crucial to verify that a software product meets its constraints with respect to 
+  - Space constraints which an be critical in miniature applications 
+  - Time constraints which can be critical in real time applications
+
+#definition(title: "Correct")[
+  A software product is correct if it satisfies its output specification, without regard for computing resources consumed, when operated under permissible (pre)conditions 
+]
+
+#warning-box[
+  Problems with Correctness:
+
+  1. Specifications can be wrong
+    - A software product can be correct but not acceptable 
+    - A software can be acceptable but not correct 
+]
+
+
+#linebreak()
+
+= Testing - Proving Program Correctness
+
+#linebreak()
+
+#definition(title: "Correctness Proof")[
+  A correctness proof is a mathematical technique for demonstrating that a program is correct
+]
+
+#remark[
+  go over this later 
+]
+ 
+#linebreak()
+
+= OO Paradigm
+
+== Cohesion and Coupling 
+
+#linebreak()
+
+#definition(title: "Module")[
+  A module is a lexically continuous sequence of program statements, bound by boundary elements and having aggregate identifier 
+]
+
+#remark[
+  1. Every function / procedure of the classical paradigm is a module 
+
+  2. In the OO paradigm, every class and every method within a class is a module 
+    1. The main idea of OO is to keep data, and operations on that data, together 
+    2. We need to be clear about the difference between the program statements that define the properties (a.k.a attributes) of a class, and some instantiation of that class. Only an instantiation of a class can actually contain data
+]
+
+#definition(title: "Composite and Structured Design")[
+  C/SD is an acronym for composite / structured design 
+
+  1. The aim of C/SD is to apply common sense to make software product designs "make sense"
+  2. C/SD done well achieves separation of concerns
+]
+
+#definition(title: "Cohesion")[
+  Cohesion of a module is the degree of interaction within that module 
+]
+
+#definition(title: "Coupling")[
+  Coupling of a pair of modules is the degree of interaction between the two modules
+]
+
+#important-box[
+
+  1. Low cohesion, tight coupling $arrow.r$ bad 
+
+  2. High Cohesion, loose coupling $arrow.r$ good 
+]
+
+#remark[
+  Why is coupling is important:
+
+  1. Tight coupling means a higher probability of regression faults
+
+  2. Suppose modules $p$ and $q$ are tightly coupled
+    - The it is likely that making a change to $p$ requires a change to $q$ 
+    - Not making the change to $q$ likely causes a fault later on 
+    - Making the change to $q$ adds time, and hence cost to the project 
+
+  3. The stronger the coupling with some other module the more fault prone a module is 
+    - This makes it more costly and difficult to maintain 
+]
+
+#pagebreak()
+
+== Encapsulation and Abstraction
+
+#linebreak()
+
+#definition(title: "Encapsulation")[
+  In OO programming, encapsulation refers to 
+
+  1. A language construct for bundling data with the methods (or other functions) operating on that data 
+]
+
+#definition(title: "Information Hiding")[
+  In many languages hiding of components is not automatic or can be overridden. Thus information hiding is defined separately.
+
+  Encapsulation plus information hiding is used to hide the values of a structured data module, preventing unauthorized parties direct access to them 
+
+  Public accessible methods are provided (getters and setters) to access the values; other client modules call these modules to retrieve / modify the values within the module  
+]
+
+#linebreak()
+
+#remark[
+  - Hiding the internals of the module protects its integrity by preventing users from setting the internal data of the module into an invalid / inconsistent state 
+
+  - A benefit of encapsulation is that it can reduce system complexity, thus increase reliability, by allowing the develop to limit inter-dependencies between software components 
+
+  - Encapsulation is supported by using classes in OO programming 
+
+  - Encapsulation is not unique to OO programming. Abstract data types offer similar form of encapsulation
+
+]
+
+#linebreak() 
+
+#definition(title: "Abstraction")[
+  Abstraction is suppressing irrelevant details and accentuating relevant details 
+]
+
+#definition(title: "Data Abstraction")[
+  Abstraction done on data 
+]
+
+#definition(title: "Procedural Abstraction")[
+  Abstraction done on code
+]
+
+#linebreak()
+
+#remark[
+  - Abstraction is a way of simplifying things so that they become easier to understand 
+
+  - Effective abstraction helps us to see how things which appear different at first glance are actually the same in all relevant ways 
+
+  - In software development, abstraction lets us focus on what a module does and not on how the module does it 
+]
+
+#linebreak()
+
+#remark[
+  - Abstraction is a means of achieving stepwise refinement 
+
+  - Effective abstraction guides us to good choices of what to encapsulate when we design and develop our software 
+]
+
+#linebreak() 
+
+#example[
+  An example of *data abstraction* 
+
+  - A List lets you use operations like `add(item)` and `get(index)`
+  - You don’t see whether it's implemented using an array or a linked list
+
+]
+
+#pagebreak()
+
+== Abstract Data Types, Information Hiding and Objects 
+
+#linebreak()
+
+#definition(title: "Abstract Data Type (ADT)")[
+  An abstract data type (ADT) is a mathematical model of 
+
+  - The data objects comprising a data type
+  - the functions that operate on these data objects 
+
+  Each operation/functions must be defined by some algorithm
+]
+
+#linebreak()
+
+#remark[
+  - The difference between data structure and ADTs is that data structure have concrete representation from the view point of an implementer 
+
+  - Using abstract data types supports data and procedural abstraction
+
+  - Abstract data points are preferred from the development and maintenance perspective 
+]
+
+#linebreak()
+
+#definition(title: "Information Hiding")[
+  Information hiding means hiding the implementation details of a module (data + code) from the outside world 
+]
+
+#linebreak()
+
+#highlight[How information hiding is useful at design time]
+
+- Make a list of implementation decisions which are likely to change in the future 
+
+- Design the resulting modules such that these implementation details are hidden from the other modules 
+
+- This protects other parts of the software product from changes to the implementation of the module 
+
+#linebreak()
+
+#important-box[
+  - A module affords this protection by 
+    - Encapsulating the data / operations to be hidden together 
+    - Hiding the details using a language construct like private 
+    - providing a stable interface 
+  
+  - A class may be implemented 
+    - without information hiding $arrow.r$ bad 
+    - with information hiding $arrow.r$ good 
+]
+
+#linebreak()
+
+#definition(title: "Class")[
+  A class is an abstract data type that supports inheritance
+]
+
+#definition(title: "Inheritance")[
+  Inheritance allows a new data type to be defined as an extension of a previously defined type, rather than having to be defined from scratch 
+]
+
+#linebreak()
+
+#example[
+  1. Start with a person class, having:
+
+    - Properties / Attributes 
+      - `LastName`
+      - `FirstName`
+      - `DateOfBirth`
+    - Methods 
+      - `createFullName`
+      - `createEmail`
+      - `computeAge`
+  
+  2. Then define a Student class, having all the Properties / Methods of `Person`, plus
+
+    - Properties 
+      - `StudentNumber`
+      - `CumulativeAverage` 
+
+  3. Then each `Student`
+
+    - inherits from `Person`
+    - isA `Person`
+    - is a specialization of `Person`
+
+  Here is a diagram of the relationships between these classes
+  
+  #figure(
+    image("images/inheritance.png", height: 25%),
+  )
+]
+
+#linebreak
+
+#definition(title: "Object")[
+  An object is an instantiation of a class
+]
+
+#linebreak()
+
+#remark[
+  - Only an instantiation of a class (object) can actually contain data 
+
+  - A class contains the data definitions, but cannot contain actual data
+]
+
+#linebreak()
+
+#definition(title: "Aggregation / Composition")[
+  Aggregation / Composition refers to the component classes of a larger class 
+
+  i.e grouping related classes creates a larger class 
+
+  #figure(
+    image("images/computer.png", width: 70%)
+  )
+]
+
+#definition(title: "Association")[
+  Association refers to a relationship (of some kind) between two apparently unrelated classes 
+  
+  i.e. The `Radiologist` class consults the `Lawyer` class
+  #figure(
+    image("images/radiologist.png", width: 70%)
+  )
+]
+
+#pagebreak()
+
+== Inheritance, Polymorphism, and Dynamic Binding 
+
+#linebreak()
+
+#example[
+  
+  1. Consider a `File` class with an `Open` method
+
+  2. An instantiation of a `File` might be on stored on 
+    - hard disk 
+    - flash drive 
+    - tape 
+    
+    so each `Open` method must e different in each situation 
+
+  3. The `File` base class derived classes 
+    - `HardDiskFile`
+    - `FlashDriveFile`
+    - `TapeFile`
+
+  4. The `File` class has a dummy `Open` method
+]
+
+#linebreak()
+
+#definition(title: "Dynamic Binding")[
+  At run time, the system decides which `Open` method to invoke. This is called dynamic binding.
+]
+
+#definition(title: "Polymorphic")[
+  The `Open` method is called polymorphic, because it applies to different subclasses different 
+]
+
+#linebreak()
+
+#warning-box[
+  Problems with Dynamic Binding / Polymorphism
+
+  1. We cannot determine at compile time which version of a polymorphic method will be called at run time. This can make failures hard to diagnose
+
+  2. Software products that make heavy use of polymorphism can be hard to understand, hence hard to maintain and enhance 
+]
+
+#linebreak()
+
+#highlight[Summary of Reasons Why OO is Better than Classical]
+
+1. OO treats data and operations on that data together with equal importance 
+
+2. So a well designed class does a good job of modelling some real world entity 
+
+3. A well designed class fosters re-use 
+
+4. High cohesion + loose coupling $arrow.r$ fewer regression faults 
+
+#pagebreak()
+
+#highlight[History of Software Engineering]
+
+$arrow.r$ 1960s no software engineers
+
+$arrow.r$ Code and Fix was the norm 
+
+$arrow.r$ Classical model was used  
+
+$arrow.r$ Classical model increased productivity
+
+$arrow.r$ OO was proposed as better alternative for larger and more complex software products 
+
+#linebreak()
+
+#highlight[Problems with OO]
+
+There is a learning curve associated with adopting the OO paradigm for the first time. 
+It takes longer the first time then doing it with the Classical model.
+This is worse with large GUI components 
+
+But 
+
+1. The reuse of classes pay back the initial investment 
+
+2. Post delivery maintenance costs are reduced
+
+#linebreak()
+
+#definition(title: "Fragile Base Class Problem")[
+  Any change to the base class affects all of its descendants. This phenomenon is known as the fragile base class problem.
+
+  - In the best case, all descendants need to be recompiled after the case class is changed 
+  - In the worst case, all descendants have to be recoded then recompiled. This is bad!
+]
+
+#linebreak()
+
+#warning-box[
+
+  - Unless explicitly prevented, every subclass inherits all the Properties / Methods of its parent. The reason to create a subclass is to add Properties / Methods. Hence objects lower in the inheritance tree can quickly become large, leading to storage problems 
+
+  - Recommendation: Change our philosophy from "use inheritance whenever possible" to "use inheritance whenever appropriate"
+
+  - Also explicitly Properties / Methods from being inherited, where this makes sense 
+]
+
+#linebreak()
+
+#warning-box[
+  
+  - One can code badly in any language or paradigm 
+
+  - This is especially true with OO languages since we can add unnecessary complexity 
+
+]
+
+#pagebreak()
+
+= Reusability
+
+#linebreak()
+
+1. #highlight[Advantages of Reuse]
+
+  - Save time / resources during development / testing 
+
+  - Maintenance becomes cheaper 
+
+  - Library subroutines are tested and well documented 
+
+
+2. #highlight[Pitfalls of Reuse]
+
+  - Depending too heavily on reuse can make us averse to writing new code even when needed 
+
+  - Suppose that we need to extend / enhance an existing module before we can reuse it. This risks introducing regression faults for existing consumers of the module 
+
+  - Old modules might not be as good 
+
+  - Compatibility issues
+
+  - Writing a module to handle multiple situations can make the module less efficient than if it was separate modules for each section
+
+  - Undetected faults propagated 
+
+  - Documentation is often poor 
+
+
+4. #highlight[Reuse refers not only to code but also]
+
+  - Documents 
+
+  - Duration / Cost Estimates 
+
+  - Test data 
+
+  - Architecture 
+
+
+5. #highlight[Impediments to Reuse]
+
+  - Sometimes, what is a candidate for being reused is not obvious 
+    - Poor documentation to contribute to this problem 
+    - If we abstract effectively during analysis / design workflows, what to reuse becomes clearer 
+
+  - QA test cases to outdated to reuse 
+
+  - Ego: Willingness to use someone else's code 
+
+  - Quality concerns 
+
+  - Reuse can be expensive 
+
+  - Legal issues (IP problems)
+
+#pagebreak()
+
+What are the types of reuse?
+
+#linebreak()
+
+#definition(title: "Accidental / Opportunistic Reuse")[
+  Developer of a new software product realizes that a previously developed module can be reused as a subroutine in a new software product 
+]
+
+#definition(title: "Deliberate / Systematic Reuse")[
+   Software Modules are specially designed and constructed to be used in multiple software products 
+]
+
+#linebreak()
+
+#remark[
+  OO classes are the best type of module that we know about for fostering reuse 
+]
+
+#quote-box[
+  holy OO glaze bruh 
+] 
+
+#linebreak()
+
+Diagrams for each type of reuse have 
+
+- Shaded areas for the parts that are reused 
+- White space for the parts that the reuser must supply 
+
+#corollary(title: "Library (toolkit)")[
+
+  #figure(
+    image("images/library.png", width: 60%)
+  )
+  
+  *What is reused:* Library with a set of reusable operations 
+
+  *What is new:* Supply control logic of software 
+]
+
+#corollary(title: "Application Framework")[
+
+  #figure(
+    image("images/application.png", width: 60%)
+  )
+
+  *What is reused:* Opposite to library, control logic is reused
+
+  *What is new:* Design application specific subroutines inside the control logic
+]
+
+#linebreak()
+
+If the goal is to improve software development, then reusing a framework will be more effective than using libraries
+
+  - More effort to design control logic 
+  - Less effort to develop application specific subroutines 
+
+#linebreak()
+
+#definition(title: "Software Architecture")[
+  Software architecture encompasses a wide range of design issues including,
+
+  - organization of components 
+  - control structures 
+  - communication
+  - DB organization and access 
+  - Performance 
+
+  Architecture can also be reused 
+]
+
+#corollary(title: "Component Based Software Engineering")[
+  *Goal:* Construct a standard library of reusable components 
+] 
+
+#pagebreak()
+
+= Design Patterns 
+
+#linebreak()
+
+#definition(title: "Design Pattern")[
+  A design pattern is a solution to a general design problem, in the form of a set of interacting classes that have to be customized to create a specific design 
+]
+
+- What is reused: Relationships among classes 
+- What is new: Details within each class
+
+#definition(title: "Abstract Class")[
+  An abstract class is a class which cannot be instantiated, but can be used as a base class for inheritance 
+]
+
+#definition(title: "Abstract Method")[
+  An abstract method is a method which has an interface, but which does not have an implementation 
+]
+
+- Abstract methods are implemented in subclasses of the abstract class 
+- It provides a way for an object to permit access to its internal implementation in such a way that clients are not coupled to the structure of that internal implementation $arrow.r$ benefits of information hiding without actually hiding the implementation details 
+
+#linebreak()
+
+#remark[
+  Categories of Design Patterns
+
+  1. Creational e.g. Abstract Factory 
+
+  2. Structural e.g. Adapter, Bridge 
+
+  3. Behavioural e.g. Iterator, Mediator 
+]
+
+#linebreak()
+
+#highlight[Strengths of Design Patterns]
+
+1. Promote reuse by solving a general design problem 
+
+2. Provide high level documentation of the design, because patterns specify design abstractions 
+
+3. May already have implementations written
+
+4. Make maintenance easier for programmers who are familiar with the patterns 
+
+#linebreak()
+
+#highlight[Weaknesses of Design Patterns]
+
+1. Lack a systematic way to determine when patterns should be applied 
+
+2. Often require multiple patterns together, which is complicated 
+
+3. Are incompatible with the Classical paradigm 
+
+#linebreak()
+
+#remark[
+  Improvement in software methodology has bigger payoff in maintenance than it does in development 
+]
+
+#pagebreak()
+
+= Portability
+
+#linebreak()
+
+#definition(title: "Portability")[
+  A program P1 is portable if it is significantly cheaper to convert it to P2 than to recode P2 from scratch 
+]
+
+#remark[
+  Portability does not mean porting the code only. We must port documentation and manuals too 
+]
+
+#definition(title: "Hardware Incompatibilities")[
+  Character Codes: 
+
+  - ASCII
+  - EBCDIC 
+  - UNICODE 
+
+  Software developed on a platform with on encoding must be modified to work on a platform with the other encoding 
+]
+
+#definition(title: "Operating System Incompatibilities")[
+  - MAC OS versus Windows
+]
+
+#definition(title: "Numerical System Incompatibilities")[
+  Word Size:
+
+  32-bits vs 64-bit cpus 
+]
+
+#definition(title: "Compiler Incompatibilities")[
+  Different compilers versions can enforce different syntax rules 
+]
+
+#linebreak()
+
+#problem[
+  Is portability really necessary?
+]
+
+#solution[
+  Yes.
+
+  1. If your firms business is selling software portability = higher revenue 
+
+  2. Even if not good software lives 10-20 years more while hardware changes ever 4-5 years, so portability saves money 
+]
+
+#linebreak()
+
+#definition(title: "Unix")[
+  UNIX operating system was constructed for maximum portability  
+
+  More of the code base is platform independent making it ease to port 
+]
+
+#remark[
+  Lessons of UNIX 
+
+  1. We should emulate the techniques used to design / build UNIX, as much as possible 
+  2. When we have a choice of operating system choose UNIX 
+]
+
+#quote-box[
+  W UNIX propaganda
+]
+
+#remark[
+  We should try to use high level language $arrow.r$ more insulated from the hardware level / resilient to change in hardware 
+]
+
+#corollary(title: "Portable Data")[
+  Porting large amounts of data can be very problematic. This is necessary for things like disaster recovery.
+
+  - Flat files are the most portable data format 
+]
+
+#linebreak()
+
+Major promise of OO technologies: 
+Final product is portable and reusable 
+
+#pagebreak()
+
+= Planning and Estimation 
+== Function Points 
+
+#linebreak()
+
+Our ranges of estimates must be broad 
+
+*After requirements workflow:* We provide a preliminary estimate here, so that the client can decide whether to proceed to analysis or not 
+
+*After analysis workflow:* A more detailed understanding of what is needed
+
+#caution-box[
+  You may find yourself getting pressured to reduce preliminary estimates to ensure a project goes ahead.
+
+  If cost is too high client can:
+
+  - Reduce the scope of the requirements 
+  - Increase total budget 
+
+  Giving into pressure to reduce costs *always* leads to problems later on  
+]
+
+#corollary(title: "All costs of Development")[
+  1. Internal 
+    - Salaries of project tea members 
+    - Cost of hardware and software 
+    - Overhead costs 
+
+  2. External 
+    - Usually internal costs plus some mark up 
+
+  #quote-box[
+    milk those mfs ong 
+  ]
+]
+
+#definition(title: "Estimating Duration")[
+  Client will need to know when to expect software product to be delivered
+]
+
+#linebreak()
+
+#highlight[Obstacles to Estimating Accurately]
+
+1. Human 
+  - Variations in quality 
+  - turnover 
+  - Varying levels of experience 
+
+#linebreak()
+
+#definition(title: "Function Points")[
+  Functions points provide a consistent basis for comparing the sizes of different software products 
+
+  Advantages of FP over LOC (lines of code):
+
+    - Independent of implementation (some languages can be more verbose $arrow.r$ more code for the same thing)
+    - We can count FP after the analysis workflow, i.e. before the code is written (useful for project management)
+]
+
+#pagebreak()
+
+== Intermediate COCOMO
+
+#linebreak()
+
+#definition(title: "KDSI")[
+  KDSI stands for Thousands Delivered Source Instructions (i.e. 1000s of lines of code)
+]
+
+#corollary(title: "Techniques for Cost Estimation")[
+  1. There is no perfect technique for estimating the cost / duration of a software product 
+
+  2. Some factors to consider 
+    - Skill levels of project personnel 
+    - Complexity of project 
+    - Project deadlines 
+    - Target hardware 
+    - Availability of CASE tools 
+]
+
+#corollary(title: "Techniques for Cost Estimation")[
+  1. Expert judging by analogy 
+    - compare to similar past projects 
+
+  2. Bottom Up approach
+    - Analogous to divide and conquer 
+  
+  3. Algorithmic Cost Estimation Models 
+    - Compute the size of the software product using function points
+    - Use size to estimate cost and duration 
+]
+
+#definition(title: "Intermediate Constructive Cost Model (COCOMO)")[
+  1. COCOMO comprises three models (highest level $arrow.r$ lowest level):
+    - Macro estimation 
+    - Intermediate 
+    - Micro estimation 
+
+  2. Two stages in Intermediate COCOMO 
+    - Nominal effort 
+    - Estimated effort 
+]
+
+#definition(title: "COCOMO II")[
+  1. COMOCO is based on LOC (or KDSI)
+
+  2. 3 applications of COCOMO II
+    - Application composition model
+    - Early design model 
+    - Post architecture model 
+
+  3. Where COCOMO outputs a single estimate, COCOMO outputs a range of estimates for each model 
+]
+
+#remark[
+  Key ideas:
+
+  1. It is rare for a software project to be completed (i.e. my personal projects) ahead of schedule and under budget. Deviations from estimates usually make the project late and over budget
+
+  2. Hence it is critical to detect deviations from our estimates ASAP, to correct it 
+]
+
+#pagebreak()
+
+== Project Management
+
+
+Three main components 
+
+1. The work to be done 
+  - project functions continue throughout the project not related to any workflow 
+  - Activities / tasks are related to particular work flow 
+  - Activities $arrow.r$ major units of work 
+  - Tasks $arrow.r$ minor units of work
+
+2. The resources with which to do the work 
+  - people 
+  - hardware 
+  - software 
+  
+  Including the timing of when those resources should be consumed 
+
+3. Money to pay for t all 
+  - How and when it will spent 
+
+
+#definition(title: "Software Project Management Plan (SPMP) Framework")[
+  Omitted not tested 
+
+  praise god
+]
+
+#corollary(title: "Planning Testing")[
+  Include a detailed schedule for what testing must be done during each workflow
+]
+
+#remark[
+  Planning / estimation tools (FP, COMOCO) work for OO and Classical assuming no reuse
+]
+
+#corollary(title: "Training Requirements")[
+  Training requirements should be for everyone not just clients:
+
+    - Developers may need project management training 
+    - New development techniques may need training 
+    - New hardware many need training 
+]
+
+
+#important-box[
+  *Affirmations:*
+
+  1. You are smart and sexy 
+
+  2. You will ace the exam 
+
+  I hope this helped goodluckk on the final <\3
+]

@@ -899,7 +899,6 @@ Payments start at $R$ and increase by $R times k$ for each period
   Or equivalently,
 
   $
-    A V = (I_s)_(n ceil.r i) = diaer(s)_(n ceil.r i) - n / i = s_(n + 1 ceil.r i) - (n + i) / i \ 
-    = R times 
+    A V = (I_s)_(n ceil.r i) = (diaer(s)_(n ceil.r i) - n) / i = (s_(n + 1 ceil.r i) - (n + 1)) / i
   $
 ]
