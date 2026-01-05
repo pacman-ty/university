@@ -47,6 +47,7 @@
 #set page(numbering: "1 of 1")
 
 // BEGIN NOTES BELOW
+
 = The Scope of Software Engineering
 
 == The Classical and Object Oriented Paradigms
