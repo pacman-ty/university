@@ -48,4 +48,15 @@
 
 // BEGIN NOTES BELOW
 
+= Http (continued)
 
+#definition(title: "TCP") {
+  - Client initiates connection (creates socket) to server, port 80
+  - Server accepts TCP connection from client
+  - HTTP messages (application-layer protocol messages) exchanged between browser (HTTP client) 
+  - TCP connection is closed
+
+  *HTTP is "stateless"*
+
+  - Server maintains no information about past client requests
+}
