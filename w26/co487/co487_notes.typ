@@ -337,7 +337,80 @@ We are given a cipher text to break
   - *Encryption takes $h$ rounds:*
     - Plaintext is $m = (m_0, m_1)$, where $m_i in {0, 1}^n$
     - *Round 1:* $(m_0, m_1) arrow (m_1, m_2)$, where $m_2 = m_0 xor f_1 (k_1, m_1)$
+    - *Round 2:* $(m_1, m_2) arrow (m_2, m_3)$, where $m_3 = m_1 xor f_2 (k_2, m_2)$
+    - *Round $h$:* $(m_(h - 1), m_h) arrow (m_h, m_(h + 1))$, where $m_(h + 1) = m_(h - 1) xor f_h (k_h, m_h)$
+    - Ciphertext is $c = (m_h, m_(h + 1))$
+  
+  - *Decryption:* Given $c = (m_h, m_(h + 1))$ and $k$, to find $m = (m_0, m_1)$
+    - Compute $m_(h - 1) = m_(h + 1) xor f_h (k_h, m_h)$ 
+    - Similarly, compute $m_(h - 2), dots , m_1, m_0$
 ]
 
+#remark[
+   - No restrictions on the functions $f_i$ in order for the encryption procedure to be invertible 
+   - *Underlying principle:* Take something "simple" and use it several times; hope that the result is "complicated" 
+]
 
+#corollary(title: "DES Problem: Small Key Size")[
+  Exhaustive seach on key space takes $2^(56)$ steps and can be easily parallelized 
+]
+
+#definition(title: "Multiple Encryption")[
+  Re-encrypt the ciphertext one or more times using independent keys, and hope that this operation increase the effective key length 
+
+  Multiple encryption does not always increase security. e.g. Substitution cipher 
+]
+
+#definition(title: "Double Encryption")[
+  - *Double DES:* Key is $k = (k_1, k_2), k_1, k_2 in_R {0 , 1}^(56)$
+  - *Encryption:* $c = E_(k 2)(E_(k 1)(m))$
+  - *Decryption:* $c = E_(k 1)^(-1)(E_(k 2)^(-1)(m))$
+  
+  - Key length of Double DES is $l = 112$, so exhaustive key search takes $2^(112)$ steps (infeasible)
+]
+
+#corollary(title: "Attack on Double DES")[
+  
+  Main idea: If $c = E_(k 2)(E_(k 1)(m))$, then $E^(-1)_(k 2) (c) = E_(k 1) (m)$  (meet-in-the-middle)
+
+  1. Given: Known plaintext pairs $(m_i, c_i)$ , $i = 1, 2, 3, dots$
+  2. For each $h_2 in {0, 1}^(56)$: 
+    - Compute $E_(h 2)^(-1)$, and store $[ E_(h 2)^(-1), h_2$ in a table 
+  3. For each $h_1 in {0, 1}^(56)$ do the following
+    - Compute $E_(h_1) (m_1)$ 
+    - Search for $E_(h_1) (m_1)$ in the table 
+    - If $E_(h_1) (m_1) = E^(-1)_(h_2)(c_1)$:
+      - Check if $E_(h_1) (m_1) = E^(-1)_(h_2)(c_2)$
+      - Check if $E_(h_1) (m_1) = E^(-1)_(h_2)(c_3)$
+      - Etc 
+      - If all checks pass, then output $(h_1, h_2)$ and stop 
+
+  Complexity of the attack is $approx 2^(57)$
+]
+
+#remark[
+  - Number of known plaintext / ciphertext pairs required to avoid false keys: 2 suffice, with high probability
+  - Number of DES operations $approx 2^(56) + 2^(56) + 2 times 2^(48) approx 2^(57)$
+  - Space requirements: $2^56 ( 64 plus 65)$ bits $approx 1,080,863$ Tbytes 
+
+
+  Double DES effectively has the same key length as DES and isn't much more secure
+]
+
+#definition(title: "Three Key Triple Encryption")[
+  - *Triple DES:* Key is $k = (k_1, k_2, k_3), k_1, k_2, k_3 in_R {0 , 1}^(56)$
+  - *Encryption:* $c = E_(k 3)(E_(k 2)(E_(k 1)(m)))$
+  - *Decryption:* $c = E_(k 1)^(-1)(E_(k 2)^(-1)(E^(-1)_(k_3)(m)))$
+  
+  - Key length of Triple DES is $l = 168$, so exhaustive key search takes $2^(168)$ steps (infeasible)
+]
+
+#corollary(title: "Attack on Triple DES")[
+  - meet-in-the-middle attack takes $approx 2^112$ steps 
+  - So, the effective key length of Triple DES against exhaustive key search is $<= 112$ bits 
+  - No proof that Triple DES is more secure than DES
+  - Block length is 64 bits, and now forms the weak link:
+     - Adversary stores a large table (of size $<= 2^64$) pf $(m, c)$ pairs (dictionary attack)
+     - To prevent this attack $arrow$ change secret keys frequently
+]
 
