@@ -890,7 +890,7 @@ The adversary knowns everything about the MAC scheme expect the value of $k$
 
   - Given $r$ known message-MAC pairs: $(m_1, t_1), dots , (m_r, t_r)$ one can check whether a guess $k$ of the key is correct by verifying that $M(k, m_i) = t_i$ for $i = 1, 2, dots , r$ 
 
-  - Assuming that the $M(k, .)$'s are random functions, the expected number of keys for which the tags verify is $K + 2^l / 2^(nr)$ 
+  - Assuming that the $M(k, .)$'s are random functions, the expected number of keys for which the tags verify is $K + 2^l / 2^(n r)$ 
 
   - Requires $approx 2^l$ computations
 
