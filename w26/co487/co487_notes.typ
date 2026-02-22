@@ -811,3 +811,91 @@ We can take this and do $arrow$
     image("images/sponge_function.png", width : 80%)
   )
 ]
+
+#pagebreak()
+
+== Message Authentication Codes Authenticated Encryption
+
+#linebreak()
+
+#definition(title: "Message Authentication Code (MAC)")[
+  A message authentication code (MAC) scheme is an efficiently computable function 
+
+  $ M : {0, 1}^l times {0, 1}^* arrow {0, 1}^n $ 
+
+  written 
+
+  $ M(k, m) = t $ 
+
+  Where $k$ is the key, $m$ is the message, and $t$ is the tag 
+
+  #quote-box[
+    MAC schemes are used for providing (symmetric key) data integrity and data origin authentication
+  ]
+
+  #figure(
+    image("images/macs.png", width : 50%)
+  )
+]
+
+#corollary(title: "Applications of Message Authentication Codes")[
+
+  1. Alice and Bob establish a secret key $k in {0, 1}^l$ 
+
+  2. Alice computes $t = M(k, m)$ and sends $(m, t)$ to Bob 
+
+  3. Bob verifies that $t = M(k, m)$ 
+
+  To avoid replay, add a timestamp, or sequence number 
+
+  No confidentiality or non-repudiation 
+
+  #figure(
+    image("images/app_mac.png", width : 70%)
+  )
+]
+
+#pagebreak()
+
+Let $k$ be the secret key shared by Alice and Bob
+
+The adversary knowns everything about the MAC scheme expect the value of $k$ 
+
+#definition(title: "MAC security")[
+
+  A MAC scheme is secure if: 
+
+  - Given some number of MAC tags $M(k, m_i)$ for messages $m_i$ chosen adaptively by the adversary (interaction)
+
+  - It is computationally infeasible (computational resources)
+
+  - To compute (with non non-negligible probability of success) the value of $M(k, m)$ for any message $m != m_i$ (goal)
+
+  In other words, a MAC scheme is secure if it is existentially unforgeable against chosen message attack 
+]
+
+#definition(title: "Generic Attacks")[
+
+  *Guessing the MAC of a message $m$:*
+
+  - Select $y in {0, 1}^n$ and guess that $M(k, m) = y$ 
+
+  - Assuming that $M(k, .)$ is a random function, the probability of success is $1 / 2^n$ 
+
+  - Guesses cannot be directly checked without interaction 
+
+  - Depending on the application where the MAC algorithm is employed, one could choose $n$ as small as $32$. In general, $n => 128$ is preferred 
+
+  *Exhaustive Search on the Key Space:*
+
+  - Given $r$ known message-MAC pairs: $(m_1, t_1), dots , (m_r, t_r)$ one can check whether a guess $k$ of the key is correct by verifying that $M(k, m_i) = t_i$ for $i = 1, 2, dots , r$ 
+
+  - Assuming that the $M(k, .)$'s are random functions, the expected number of keys for which the tags verify is $K + 2^l / 2^(nr)$ 
+
+  - Requires $approx 2^l$ computations
+
+  - Exhaustive search is feasible if $l >= 128$ 
+  
+]
+
+
