@@ -107,7 +107,7 @@ to a more convenient space
 ]
 
 #definition(title: "Shift Cipher")[
-  Idea: Modify Caeser cipher by introducing a secret key 
+  Idea: Modify Caesar cipher by introducing a secret key 
 
   #figure(
     image("images/shift_cipher.png")
@@ -245,7 +245,7 @@ We are given a cipher text to break
 ]
 
 #remark[
-  Two perspevtives on a permutation 
+  Two perspectives on a permutation 
 
   1. As a function from bit position to bit position (i.e a one-to-one function on ${0, 2, dots}, 127$) 
 
@@ -442,7 +442,7 @@ We are given a cipher text to break
   - Some modes namely ECB and CBC, require the plaintext to consist of one or more complete blocks 
   - Padding method 
     - Append a single '1' bit to the data string 
-    - Pad the resulting string by as few '0' bits, possibl none, as are necessary to complete the ifnal block 
+    - Pad the resulting string by as few '0' bits, possible none, as are necessary to complete the final block 
   - The padding bits can be removed unambiguously, if the receiver known that this padding method is used 
 ]
 
@@ -548,7 +548,7 @@ We are given a cipher text to break
 
   A hash function is a mapping $H$ such that: 
 
-  1. $H$ maps inputs of arbitrary lengths to outputs of length $n$, where $n$ is fixed ($H : {0, 1}* arrow {o, 1}^n)$ (more generally, $H$ maps elemnts of a set $S$ to a set $T$ where $|S| > |T|$)
+  1. $H$ maps inputs of arbitrary lengths to outputs of length $n$, where $n$ is fixed ($H : {0, 1}* arrow {o, 1}^n)$ (more generally, $H$ maps elements of a set $S$ to a set $T$ where $|S| > |T|$)
 
   2. $H(x)$ can be efficiently computed for all $x in {0, 1}*$ 
 
@@ -561,19 +561,19 @@ We are given a cipher text to break
 ]
 
 #definition(title: "Pre-image Resistance")[
-  Let $m$ be a positive integer. We say that $H$ is _pre-image_ resistant for messages of length $m$ if, given $y = H(x)$ for $x$ picked uniformly at random from ${0, 1}^m$, it is computationally infeasible to find (with non-negligible sucess probabilty) any input $z$ such that $H(z) = y$
+  Let $m$ be a positive integer. We say that $H$ is _pre-image_ resistant for messages of length $m$ if, given $y = H(x)$ for $x$ picked uniformly at random from ${0, 1}^m$, it is computationally infeasible to find (with non-negligible success probability) any input $z$ such that $H(z) = y$
 
   - $z$ is called a pre-image of $y$ 
 ]
 
 #definition(title: "Second Pre-image Resistance")[
-  Let $m$ be a postitve integer. We say that $H$ is second pre-image resistant for messages of length $m$ if, given an input $x in_R {0, 1}^m$, it is computationally infeasible (with non-negligible sucess probabilty) to find a second input $x' != x$ such that $H(x) = H(x')$
+  Let $m$ be a positive integer. We say that $H$ is second pre-image resistant for messages of length $m$ if, given an input $x in_R {0, 1}^m$, it is computationally infeasible (with non-negligible success probability) to find a second input $x' != x$ such that $H(x) = H(x')$
 
   - $x in_R {0, 1}^m$ means $x$ chosen uniformly at random from ${0, 1}^m$ 
 ]
 
 #definition(title: "Collision Resistance")[
-  It is computationally infeasible (with non-negligible sucess probabilty) to find two distinct input $x, x'$ such that $H(x) = H(x')$ 
+  It is computationally infeasible (with non-negligible success probability) to find two distinct input $x, x'$ such that $H(x) = H(x')$ 
 
   - The pair $(x, x')$ is called a collision for $H$ 
 ]
@@ -675,7 +675,7 @@ We can take this and do $arrow$
 ]
 
 #tip-box[
-  In cryptography we somtimes want to show theorems like the following:
+  In cryptography we sometimes want to show theorems like the following:
 
   #theorem[
     Security property $X$ does not imply security property $Y$ 
@@ -692,7 +692,7 @@ We can take this and do $arrow$
 
 #definition(title: "Generic Attacks")[
   - A generic attack on a has function $H : {0, 1}^* arrow {0, 1}^n$ does not exploit any properties a specific hash function may have 
-  - In the analysis of a generic attack, we view $H$ as a random function the esnse that for each $x in {0, 1}^*$, the value $y = H(x)$ was chosen by selecting $y$ uniformly at random from ${0, 1}^n$ (written $y in_R {0, 1}^n$)
+  - In the analysis of a generic attack, we view $H$ as a random function the sense that for each $x in {0, 1}^*$, the value $y = H(x)$ was chosen by selecting $y$ uniformly at random from ${0, 1}^n$ (written $y in_R {0, 1}^n$)
   - From a security point of view, a random function is an ideal hash function. However, random functions are not suitable for practical applications because they cannot be compactly stored
 ]
 
@@ -899,3 +899,252 @@ The adversary knowns everything about the MAC scheme expect the value of $k$
 ]
 
 
+#definition(title: "MACs based on has functions: Secret Prefix method")[
+  
+  MAC definition: $M(k, m) = H(K || m)$
+
+  #figure(
+    image("images/macs_secret.png")
+  )
+
+  This is insecure. Here is a length extension attack: 
+
+  - Suppose that $(m, M(k, m))$ is known 
+  - Suppose that the bit length of $m$ is a multiple of $r$ 
+  - Then $M(k, m || m')$ can be computed for any $m'$ (without knowledge of $k$)
+
+  Also insecure if a length block is post pended to $K||m$ prior to application of $H$
+]
+
+
+#definition(title: "Encrypt and MAC (E&M)")[
+
+  Consider encrypt and MAC 
+
+  $ "Compute " c = E n c (m) " and " t = M A C (m), " transmit " c || t $ 
+
+  When decrypting, the recipient checks that the MAC is correct 
+
+  - Problem: MAC's are not required to ensure confidentiality 
+    - For example, the MAC might leak one plaintext bit, and still be "secure" as a MAC as. Violates semantic security!
+
+  - Even if the SKES is secure and the MAC is secure, the encrypt and MAC combination might be insecure 
+]
+
+#definition(title: "MAC then encrypt (MtE")[
+
+  Consider the MAC then encrypt 
+
+  $ " Compute " t = M A C (m) " and " c = E n c (m || t) , " transmist " c $ 
+
+  When decrypting, the recipient checks that the MAC is correct 
+
+  - Problem: SKES's are not required to integrity 
+    - For example, changing the ciphertext might not change the plainttext for certain values of plaintetxt. Violates integrity (of ciphertexts). (e.g. this does not MAC the IV)
+    - One can often then also learn information about the plaintext 
+
+  - Even if the SKES is secure and the MAC is secure, the MAC then encrypt combination might be insecure 
+]
+
+#definition(title: "First Class Primitives for Authentication Encryption")[
+
+  The fastest way to achieve authenticated encryption is to use a block cipher mode of operation with authentication built in: 
+
+  - CCM mode (counter with CBC MAC)
+  - EAX mode 
+  - GCM mode 
+  - OCB mode 
+
+  The modes of operation require a block cipher, but not a separate MAC (authentication functionality is built in) 
+]
+
+#definition(title: "Authenticated Encryption with Associated Data")[
+  Common Scenario: Parts of a message must remain unencrypted, but still remain authenticated 
+
+  Unencrypted data that travels with ciphertext = associated data 
+]
+
+
+#definition(title: "Authenticated Encryption with Associated Data (AHEAD)")[
+
+  Goals: We have a message $m$ and some associated data $d$. We want to produce a cipher text $c$ and a tag $t$, such that: 
+
+  - The ciphertext provides semantic security for the message $m$ 
+
+  - The tag $t$ authenticates the message $m$ and the associated $d$ 
+
+  - All of this is implemented in a dummy proof system
+
+  To avoid combining secure encryption schemes and MACS and still getting and still getting insecure authenticated encryption schemes, we want non-experts to have a single function that does both 
+
+]
+
+#pagebreak()
+
+== Chosen Ciphertext Attacks 
+
+#linebreak()
+
+#definition(title: "Chosen Ciphertext Attacks")[
+
+  One of our secondary goals in authenticated encryption is to prevent chosen ciphertext attacks. 
+
+  Our goal is: 
+
+  IND-CPA secure encryption + unforgeable MAC $arrow$ IND-CCA Secure encryption
+]
+
+
+#note-box[
+  If we include a MAC of the ciphertext, then the adversary cannot modify the ciphertext without causing the MAC verification to fail.
+
+  When the MAC verification fails, the adversary learns nothing from the decryption oracle.
+
+  Thus, the adversary can only ask for decryption of ciphertexts it has previously encrypted – and the decryption oracle is useless.
+
+  We can formalize this with a more sophisticated interactive security reduction proof.
+]
+
+== Pseudorandom Functions
+
+#definition(title: "Pseudorandom Generator")[
+  A pseudorandom generator is a deterministic function that takes as input a uniform seed $k in {0 , 1}^l$ and outputs a random looking binary string of length $l$ 
+
+  $ P R G : {0, 1}^l arrow {0, 1}^l $
+]
+
+#definition(title: "Pseudorandom Function")[
+
+  A pseudorandom function is a determinism function that takes as input a uniform random seed $k in {0, 1}^l$ and a (non secret) label in ${0, 1}^*$ and outputs a random looking binary string of length $l$ 
+
+  $ P R F : {0, 1}^l times {0, 1}^* arrow {0, 1}^l $ 
+]
+
+#definition(title: "Security Property for PRGs and PRFs")[
+
+  *Indistinguishability:* 
+
+  Assuming the seed is uniformly random on ${0, 1}^l$, it should be computationally infeasible for an adversary to distinguish the output of a PRG / PRF from a uniformly random string
+
+  For PRGs, the adversary gets either the real output of PRG under an unknown seed, or a random output, and must decide which
+
+  For PRFs, the adversary can make many calls to an oracle where the adversary can supply a label, and either always get the real output of the PRF using the same unknown seed applied to the label, or always gets a randomly chosen output (for distinct labels), and must decide which.
+
+  PRGs and PRFs assume that the random seed is a truly random (uniform) secret 
+]
+
+#definition(title: "Key Derivation Function")[
+
+  A key derivation function is a deterministic function that takes as input a (not necessarily uniform) random seed $k in {0, 1}^l$ and a (non-secret) label in ${0, 1}^*$ and outputs a random looking binary string of length $l$ 
+
+  $ K D F : {0 , 1}^l times {0, 1}^* arrow {0, 1}^l $
+
+]
+ 
+#remark[
+  *Difference between KDFs and PRFs:*
+
+  KDF output should be indistinguishable from random even if the key $k$ is non-uniform but sufficiently high entropy
+]
+
+#corollary(title: "Uses of PRGs, PRFs, KDFs")[
+
+  *PRGs:* Expanding a strong uniform short key into a long pseudorandom key (e.g. stream cipher)
+
+  *PRFs:* Deriving many pseudorandom keys from a single short uniform key
+  
+  *KDFs:* Turning longer non-uniform keys into shorter uniform-ish keys 
+]
+
+#pagebreak()
+
+== Password Hashing 
+
+#linebreak()
+
+#definition(title: "User Authentication")[
+
+  - Authenticators can be categorized as:
+    - Knowledge based 
+    - Object based 
+    - ID based
+    - Location based 
+
+  - Multi factor authentication uses combinations from multiple different categories of authenticators 
+]
+
+#definition(title: "Entropy")[
+
+  - Entropy measure the uncertainty in values generated from a random process 
+
+  - Think of passwords being generated from a random process with a certain distribution 
+
+  - Predicts the number of guesses we have to make to learn the password 
+
+  - Suppose a process $X$ generates one of $n$ values of $x_1, dots , x_n$ with probabilities $p_1, dots, p_n$ 
+
+  - Formula for entropy of process $X$:
+    
+  $ H(X) = - sum_(i = 1)^n p_i space l o g_2(p_i) $
+
+  - Simple way of thinking about it:
+    - If a password is chosen uniformly at random from a set of size $2^n$ 
+    - Then its entropy $n$ bits
+    - We require around $2^(n - 1)$ guesses on average to find it 
+
+  - If some words are more likely than other there's less uncertainty 
+    - $arrow$ less entropy 
+    - $arrow$ easier to guess 
+  
+  - Entropy of passwords is a combination of length of password and randomness of each part of the password 
+]
+
+#definition(title: "Storing Passwords Securely")[
+
+  1. Storing plaintext passwords in database 
+    - Problem: You're cooked  
+
+  2. Storing encrypted version of password in database
+    - Problem: If someone learns the key, they can decrypt the whole database
+
+  3. Store password using an irreversible transformation (hash)
+    - Problem: None really- if someone forgets their password you cant recover it 
+]
+
+#corollary(title: "Password Hash Cracking")[
+  - Attacking using Brute Force 
+    - Slow and expensive
+
+  - Attacking using Hash Tables
+    - More difficult to crack one password has, but can reuse work (pre computation)
+    - Requires massive amount of storage 
+
+  - Attacking using Rainbow Tables (not on midterm hooray)
+    - omitting for now
+
+]
+
+#definition(title: "Salting")[
+  - *Registration:*
+    - Pick a random $>= 80$-bit salt 
+    - Store username, salt, and $H("password" || "salt")$ in database where $H$ is a cryptographic hash function 
+
+  - *Login:*
+    - User supplies username and purported password
+    - Look up username, salt, and hash in database
+    - Check if $H("password" || "salt") =$ stored hash
+]
+
+#corollary(title: "Benefits of Salting")[
+
+  - Salting protects against precomputed hash tables / rainbow tables since you would need a different table for each salt
+
+  - Salting doesn't make it harder to do a brute force search against a single hash 
+
+  - Salting does make brute force attacks against many hashes harder because you can't reuse the work from one attack on another attach
+]#definition(title: "Password Hardening")[
+
+  - You can slow down brute force attacks even more by hashing the password multiple times
+
+  - Doesn't slow login much, but slows brute force by a factor of the number of times you hashed 
+]
