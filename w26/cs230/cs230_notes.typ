@@ -434,3 +434,220 @@
   `$s` is set once to the start of the record. You never change it — just change the offset `i` to navigate to different fields.
 
 ]
+
+#pagebreak()
+
+#problem[
+
+  You know there is a birth record at address `0x44`, how do i get the month?
+
+]
+
+#solution[
+
+    ```
+    addi $1, $0, 0x44
+    lw $2, 4($1)
+  ```
+
+  or,
+
+  ```
+    addi $1, $0, 0x48
+    lw $2, 0($1)
+  ```
+
+]
+
+#linebreak()
+
+#problem[
+
+  What if I want the year and the month? 
+
+]
+
+#solution[
+
+  ```
+    addi $1, $0, 0x44
+    lw $2, 0($1)
+    lw $3, 4($1)
+  ```
+]
+
+#linebreak()
+
+#problem[
+
+  How do I set the day to the 15th?
+
+]
+
+#solution[
+
+  ```
+    addi $1, $0, 0x44
+    addi $2, $0, 15
+    sw $2, 8($1)
+  ```
+]
+
+#linebreak()
+
+#corollary(title: "Low Level Errors")[
+
+  - Illegal instructions
+  - Assignment to read-only register 
+  - Integer division by $0$
+  - Alignment violation 
+  - Memory protection violation 
+  - etc
+    - usually result in exception and termination 
+]
+
+#definition(title: "Assembly File")[
+  
+  - Assembly Instruction 
+    - The actual commands that tell the CPU what to do 
+    - You can write numbers in two ways: decimal or hexadecimal
+  - Label Declarations 
+    - Labels are named markers pointing to a location in the code. They end with a colon : and let you reference that spot (e.g., for jumps or loops).
+  - Data Definitions (`.word`)
+    - `.word` reserves space in memory and stores a value there (typically a 32-bit integer).
+  - Comments - start with semicolon 
+
+  Putting it all together 
+
+  ```
+    ; --- Program Start ---
+
+    myNum:  .word 0x20     ; define a word with value 32 (decimal)
+    
+    start:                 ; label for entry point
+        MOV R0, #10        ; load decimal 10 into R0
+        MOV R1, #0x1A      ; load hex 26 into R1
+        ADD R2, R0, R1     ; R2 = 10 + 26 = 36
+  ```
+
+]
+
+#definition(title: "Input / Output")[
+
+  In assembly, there are no `print()` or `input()` functions. Instead, special memory addresses are used to communicate with the keyboard and screen.
+
+  - Input — Keyboard
+    - Address: `0xFFFF0004`
+    - To read keyboard input, you load from this address
+    - Each load retrieves one character at a time
+    - It's a "magic" address — every time you read it, you get a new character
+
+  - Output — Screen
+    - Address: `0xFFFF000C`
+    - To display a character, you write/store a byte to this address
+    - Characters are encoded in ASCII
+    - Only the least significant 7 bits are used (standard ASCII range: 0–127)
+
+  #warning-box[
+    You must use actual keyboard input — input redirection (e.g., piping from a file) may not work correctly
+  ]
+
+]
+
+#pagebreak()
+
+#example[
+
+  I/O example 
+
+  ```
+    lis $1
+    .word 0xFFFF0004      ; $1 = keyboard input address
+    
+    lis $2
+    .word 0xFFFF000C      ; $2 = screen output address
+    
+    addi $3, $0, 0x1B     ; $3 = 27 (ESC in ASCII)
+    
+    loop:
+        lw $4, 0($1)      ; read one character from keyboard → $4
+        sw $4, 0($2)      ; write that character to screen
+        bne $3, $4, loop  ; if character ≠ ESC, go back to loop
+    
+  ```
+
+  Key Takeaways
+  
+  - The program is essentially a live echo loop — whatever you type appears on screen
+  - It reads and writes one character at a time
+  - The only exit condition is pressing `ESC` (`0x1B`)
+  - `$0` is hardwired to `0` in MIPS — useful as a baseline for `addi`
+
+]
+
+#linebreak()
+
+#definition(title: "MIPS Arrays")[
+
+  An array is a way to store a fixed-length sequence of numbers in memory — similar to arrays in Python, Java, or C.
+
+  - *Element / Item*
+    - A single number stored in the array
+  - *Index*
+    - The position of an element (starts at 0)
+  - *Length / Count / Size*
+    - How many elements are in the array
+  
+  Two Essential Components
+
+  1. Address of the 0th Element
+    - The memory address where the array starts
+    - All other elements are found by offsetting from this address
+
+  2. Number of Elements (Length)
+    - How many elements the array contains
+    - The array is fixed length — you decide the size upfront
+
+]
+
+#corollary(title: "Loading the Nth Element")[
+
+  Load the $n^(t h)$ element of the array starting in `$x` into `$y` 
+
+  - `lw $y, n*4($x)`
+  - the offset is a constant 
+
+
+  #example[
+    Load the $2^(n d)$ element of the array starting in `$1` into `$3` 
+
+    - `lw $3, 8($1)`
+  ]
+]
+
+#definition(title: "Stack")[
+
+  A stack is a dedicated area of memory that works as a Last-In, First-Out (LIFO) structure — like a stack of plates, the last thing you put on is the first thing you take off.
+
+  *Key Conventions*
+
+  - Direction
+    - Grows downward in memory (address decreases as stack grows)
+  - Stack Pointer
+    - `$29` in standard MIPS
+    - `$30` in our simulator
+  - What it points to 
+    - The last used word (top of stack)
+
+  *Push — Saving a Register onto the Stack*
+
+  To save a register, you make room first, then write:
+
+  ```
+    addi $30, $30, -4     ; 1. decrement stack pointer (make room)
+    sw $x, 0($30)         ; 2. store register value at new top of stack
+  ```
+
+  *Pop — Restoring a Register from the Stack*
+
+]
