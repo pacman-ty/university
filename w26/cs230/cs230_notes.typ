@@ -639,7 +639,9 @@
   - What it points to 
     - The last used word (top of stack)
 
-  *Push — Saving a Register onto the Stack*
+]
+
+#corollary(title: "Push — Saving a Register onto the Stack")[  
 
   To save a register, you make room first, then write:
 
@@ -647,7 +649,85 @@
     addi $30, $30, -4     ; 1. decrement stack pointer (make room)
     sw $x, 0($30)         ; 2. store register value at new top of stack
   ```
+]
 
-  *Pop — Restoring a Register from the Stack*
+#corollary(title: "Pop — Restoring a Register from the Stack")[
+
+  To restore a register, you read first, then free the space:
+
+  ```
+    lw $x, 0($30)         ; 1. load value from top of stack
+    addi $30, $30, 4      ; 2. increment stack pointer (free space)
+  ```
+]
+
+#corollary(title: "Multiple Push / Pop")[
+
+  Saving Three Registers at Once
+
+  ```
+    addi $30, $30, -12    ; make room for 3 words (3 × 4 = 12)
+    sw $3, 0($30)         ; $3 at offset 0 (top)
+    sw $4, 4($30)         ; $4 at offset 4
+    sw $5, 8($30)         ; $5 at offset 8 (bottom)
+  ```
+  
+  Restoring Only One (and Discarding the Others)
+
+  ```
+    lw $7, 4($30)         ; grab just the value that was $4
+    addi $30, $30, 12     ; free all 3 slots at once
+  ```
+]
+
+#caution-box[
+    If you push 12 bytes, you must pop 12 bytes. Failing to do this corrupts the stack and will cause crashes or undefined behavior.
+]
+
+#corollary(title: "Stack Frame & Frame Pointer")[
+  #problem[
+
+    The stack pointer `$30` can change during a subroutine (e.g. when pushing more values). This makes it unreliable as a reference point inside a function.
+  ]
+
+  #solution[
+    
+    Frame Pointer 
+
+    At the start of a subroutine, take a snapshot of the stack pointer and store it as the frame pointer:
+
+    ```
+      ; at subroutine entry:
+      add $29, $0, $30      ; frame pointer ($29) = current stack pointer
+    ```
+
+    Now `$29` stays constant for the entire routine, giving you a stable base to access local variables:
+    
+    ```
+      lw $t, 0($29)         ; access variable at offset 0
+      lw $t, 4($29)         ; access variable at offset 4
+      lw $t, 8($29)         ; access variable at offset 8
+    ```
+  ]
+]
+
+
+#definition(title: "Selection Sort - MIPS")[
+
+  What is selection sort? 
+
+  Repeatedly find the minimum element in the unsorted portion and swap it to the front.
+
+  #warning-box[
+    COME BACK TO THIS 
+
+    im to lazy rn 
+  ]
+]
+
+#definition(title: "Subroutines")[
+
+  A subroutine is a reusable block of code that performs a specific task. You may know them as Functions (C, Python, etc)
+
 
 ]
