@@ -729,5 +729,268 @@
 
   A subroutine is a reusable block of code that performs a specific task. You may know them as Functions (C, Python, etc)
 
+  The key benefits are modularity (break big problems into smaller pieces) and reusability (write the code once, call it many times).
 
 ]
+
+#corollary(title: "The Core Challenges")[
+  Two problems need to be solved to make subroutines work:
+
+  1. *Call / Return* 
+    - How do you jump to the subroutine, and how does execution know where to come back to after it's done?
+
+  2. *Argument / Result Passing* 
+    - How do you send data into the subroutine, and get results back out?
+]
+
+
+#definition(title: "jal - Calling a Subroutine")[
+
+  `jal x` 
+
+  `jal x` stands for Jump And Link. It does two things simultaneously:
+
+  1. Saves your return address $arrow$ copies (current `PC + 4`) into register `$31`
+
+  2. Jumps to the function $arrow$ sets the `PC` to the address of label `x`
+
+  `PC + 4` is the address of the next instruction after the `jal` — i.e., where you want to return to after the function finishes. Register `$31` is the conventional "return address" register.
+
+]
+
+#definition(title: "jalr - Indirect Calling")[
+  `jalr $q` stands for Jump And Link Register. It works the same as `jal`, except the destination address comes from a register instead of a label:
+
+  1. Saves your return address $arrow$ copies (current `PC + 4`) into register `$31`
+
+  2. Jumps to the function $arrow$ sets the `PC` to whatever value is stored in register `$q`
+
+  To use `jalr`, you first load the function's address into a register using `lis`:
+
+  ```
+    lis $1
+    .word addTwoNumbers   # $1 now holds the address of addTwoNumbers
+    jalr $1               # jump to that address
+  ```
+
+  The value stored in `$q` is called a function pointer — a variable that holds the address of a function. This is powerful because it lets you pass functions as parameters (e.g., passing a comparator function into a sort routine).
+]
+
+#corollary(title: "Returning from a Subroutine")[
+  Returning is done with `jr $31` — Jump Register to the address saved in `$31`. Since `jal/jalr` stored `PC + 4` there, this sends execution right back to the instruction after the original call.
+]
+
+#pagebreak()
+
+#example[
+
+  ```
+    # --- The function definition ---
+    addTwoNumbers:
+        add $2, $4, $5    # $2 = $4 + $5  (result in $2, inputs in $4 and $5)
+        jr $31            # return to caller
+    
+    
+    # --- Calling it directly with jal ---
+    jal addTwoNumbers     # $31 = PC+4, then jump to addTwoNumbers
+                          # execution resumes here after jr $31
+    
+    
+    # --- Calling it indirectly with jalr ---
+    lis $1
+    .word addTwoNumbers   # load address of function into $1
+    jalr $1               # $31 = PC+4, then jump to address in $1
+                          # execution resumes here after jr $31
+  ```
+]
+
+#linebreak()
+#line(length: 100%)
+#linebreak()
+
+#example[ 
+  Print a Null-Terminated String
+
+  ```
+    ;; Register Convention:
+    ;; $4       - argument: address of string (input, do not modify)
+    ;; $8       - local: output device address (0xffff000c)
+    ;; $9       - local: current string pointer (walks through string)
+    ;; $10      - local: current character being read/printed
+    ;; $31      - return address (set by jal, used by jr $31)
+
+    pr_str:
+      lis $8          
+      .word 0xffff000c    ; $8 = address of output device
+      addi $9, $4, 0      ; $9 is our moving pointer
+                          ; it will walk through the string character by character
+    loop:
+      lw $10, 0($9)       ; load the word at address $9 into $10
+      beq $10, $0, end    ; if $10 == 0, jump to end.... i.e NULL 
+      sw $10, 0($8)       ; store $10 to the output address
+      addi $9, $9, 4      ; advance the pointer to the next character
+      beq $0, $0, loop    ; 0 == 0 is always true, so always jump to loop
+
+    end:
+      addi $10, $0, 0xA   ; $10 = 10 (ASCII for newline / line feed)
+      sw $10, 0($8)       ; print the newline character
+      jr $31              ; return to caller
+
+  ```
+
+  *Key Takeaways:*
+
+  - The function walks through memory `4` bytes at a time, loading one character per word
+  - It stops when it finds a `0` (`NUL`) — that's the end-of-string signal
+  - Writing to `0xffff000c` is how you output to the screen in this environment
+  - `beq $0, $0` , label is the standard `MIPS` idiom for an unconditional branch
+  - Always ends with `jr $31` to return to the caller
+
+]
+
+#pagebreak()
+
+#definition(title: "Argument Passing")[
+
+  When a subroutine (function) is called, the program needs a way to:
+
+  1. send inputs (arguments) to the function
+
+  2. get the result back from the function
+
+  To do this, MIPS uses registers and sometimes the stack.
+
+  - There must be an agreement who is caller and callee 
+
+]
+
+#corollary(title: "MIPS Convention")[
+
+  - First 4 arguments in registers 
+
+  - Remainder on the stack 
+
+]
+
+#corollary(title: "Always Zero — $0")[
+  This register is hardwired to the value 0 and cannot be changed. It's useful any time you need a zero — for comparisons, initializing values, or no-op moves. Writing to it does nothing
+]
+
+#corollary(title: "Assembler Temporary Reserved — $1")[
+  For the assembler itself. You shouldn't touch this one. The assembler uses it behind the scenes when it needs a scratch register to implement certain instructions
+]
+
+#corollary(title: "Return Values — $2, $3")[
+  When a function finishes and needs to hand a result back to the caller, it puts that value here. Think of these as the "output slot" of a function
+]
+
+#corollary(title: "Arguments — $4 to $7")[
+  When you call a function and need to pass inputs to it, you load them into these registers first. So `$4` holds the $1$st argument, `$5` the $2$nd, and so on (up to `4` arguments this way; more go on the stack)
+
+]
+
+#corollary(title: "Temporaries — $8 to $15, $24, $25")[
+
+  Free-for-all scratch space during computation. The catch: the caller is responsible for saving these if it needs them preserved across a function call, because the callee (the function being called) is free to overwrite them
+
+]
+
+#corollary(title: "Saved Temporaries — $16 to $23")[
+
+  Similar to temporaries, but with the opposite rule: the callee must save and restore these before returning. So if your function uses `$16`, it must push the original value to the stack first and pop it back before it exits. The caller can always trust these will be unchanged after a function call
+
+]
+
+#corollary(title: "OS Kernel Reserved — $26 to $27")[
+  Off-limits for regular programs. The operating system uses these exclusively for handling interrupts and exceptions.
+]
+
+#corollary(title: "Global Pointer — $28")[
+  Points to the middle of a $64$KB block of memory where global variables are stored. Having a fixed pointer here lets the CPU access globals efficiently in a single instruction rather than needing to calculate their address each time.
+]
+
+#corollary(title: "Frame Pointer — $30")[
+
+  Points to the base of the current function's stack frame. While the stack pointer moves around during a function, the frame pointer stays fixed — giving you a stable reference point to find local variables and saved registers. Some compilers skip this and just use `$sp` directly.
+]
+
+
+#corollary(title: "Return Address — $31")[
+
+  When you call a function with `jal` (jump and link), the CPU automatically saves the return address here — i.e., where to jump back to when the function is done. The callee must save this to the stack if it calls any further functions, otherwise it gets overwritten.
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#pagebreak()
+
+
+= Machine Internals 
+
+#linebreak()
+
+#definition(title: "Clock")[
+
+  parallel processing vs concurrency 
+
+  ticks are controlled using edge control 
+
+
+  
+]
+
+#definition(title: "Cycle Execution")[
+
+]
+
+#linebreak()
+
+#problem[
+
+  What is the machine code version of:
+  
+  ```
+  Sub $5, $1, $2
+  ```
+
+]
+
+#solution[
+
+  `0000 00`
+  
+  Unisgned `5`-bit binary integers 
+
+  $5_10 = 00101_2$
+
+  $1_10 - 00001_2$
+
+  $2_10 = 00010_2$
+
+  `0000 00 (op code for regsiter only instructions) 00 001 ($s | $1|) 0 0010 1 ($t | $2) 0010 ($d | $5) 000`
+
+]
+
+
+
+
