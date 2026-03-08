@@ -1175,7 +1175,7 @@
   1. One Instruction Per Clock Cycle
 
     - Every instruction must finish in exactly one clock cycle
-    - The problem? Different instructions take different amounts of time physically. A memory load (lw) is much slower than a simple add]
+    - The problem? Different instructions take different amounts of time physically. A memory load (lw) is much slower than a simple add
 
   2. One Instruction, Multiple Clock Cycles
 
