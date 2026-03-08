@@ -920,12 +920,203 @@
   When you call a function with `jal` (jump and link), the CPU automatically saves the return address here — i.e., where to jump back to when the function is done. The callee must save this to the stack if it calls any further functions, otherwise it gets overwritten.
 ]
 
+#definition(title: "Caller vs Callee Registers")[
+  
+  *Callee-saved* (\$16 – \$23) $arrow$ the function being called saves and restores registers before using them
+
+  *Caller-saved* (\$8 – \$15, \$24, \$25) $arrow$ the function doing the calling saves registers before making a call, in case they get overwritten
+
+  #remark[
+    Why callee-saving is more efficient: 
+
+    There are typically more callers than callee's. If the callee saves once, every caller benefits — less total code than every caller saving individually.
+  ]
+]
+
+#definition(title: "Local Variables")[
+
+  When a function needs local variables, they are stored on the stack by default. You make room by moving the stack pointer (`$sp`) down when you enter the function, and reclaim that space when you leave.
+
+  No restrictions on:
+
+  - How many local variables you have
+  - How large they are (arrays, structs, etc.)
+
+  Automatic Variables:
+
+  - Function is entered
+    - Stack space is reserved (`$sp` moves down)
+
+  - Function exits
+    - Stack space is released (`$sp` moves back up)
+]
+
+#lemma(title: "Preserving the Stack")[
+
+  A function must preserve the value of the stack pointer 
+
+  - Always add back any value back any value you subtracted from the stack pointer `$sp` before ending a function 
+
+  - The stack pointer `$sp` should have the same value at the beginning and end of a function
+]
+
+#linebreak()
+
+
+#example[
+
+  Printing Integer 
+
+  The goal is to take an integer in `$4` and print it character by character to the output device.
+
+  Register Map: 
+
+  - `$4` $arrow$ Input integer
+  - `$8` $arrow$ Memory-mapped output address (0xffff000c)
+  - `$9` $arrow$ Working copy of the value
+  - `$10` $arrow$ Temporary (current digit, etc.)
+  - `$11` $arrow $Counter (how many digits on stack)
+  - `$30` $arrow$ Stack pointer
+
+  ```
+    ; Part 1 — Setup & Handle Negative
+
+    pr_int:
+      lis $8
+      .word 0xffff000c       # $8 = output device address
+
+      addi $9, $4, 0         # $9 = copy of input value
+      addi $11, $0, 0        # $11 = digit counter, start at 0
+
+      slt $10, $9, $0        # is $9 < 0?
+      beq $10, $0, comp      # if not negative, skip ahead
+
+      addi $10, $0, 0x2D     # 0x2D = ASCII '-'
+      sw $10, 0($8)          # print the minus sign
+      sub $9, $0, $9         # make $9 positive (negate it)
 
 
 
+    ; Part 2 — Extract Digits (Push to Stack)
+
+    comp:
+      addi $11, $11, 1       # increment digit counter
+      
+      addi $10, $0, 10
+      div $9, $10            # divide working value by 10
+      
+      mfhi $10               # remainder = last digit
+      addi $30, $30, -4      # make room on stack
+      sw $10, 0($30)         # push digit onto stack
+      
+      mflo $9                # quotient = remaining number
+      bne $9, $0, comp       # if more digits remain, loop
 
 
+    Part 3 — Pop Digits & Print
 
+    output:
+      lw $10, 0($30)         # pop digit from stack
+      addi $30, $30, 4       # move stack pointer back up
+
+      addi $10, $10, 0x30    # convert digit to ASCII (0→'0', 1→'1', etc.)
+      sw $10, 0($8)          # print the character
+
+      addi $11, $11, -1      # decrement counter
+      bne $11, $0, output    # if digits remain, loop
+
+      addi $10, $0, 0xA      # 0xA = ASCII newline (LF)
+      sw $10, 0($8)          # print newline
+
+      jr $31                 # return
+  ```
+]
+
+#linebreak()
+
+#line(length : 100%)
+
+#linebreak()
+
+#definition(title: "Recursion")[
+  
+  Mathematical Programming technique
+
+  - Divide larger problem into smaller ones 
+  - Recursion mandates stack 
+    - need memory area per subroutine 
+
+  Equivalent to
+    - loop 
+    - conditional branch 
+]
+
+#pagebreak()
+
+#example[
+
+  Factorial in MIPS
+
+  Two approaches: 
+
+  1. Recursive 
+  2. Iterative
+  
+  Register Map:
+
+  - `$2` $arrow$ Running result (starts at 1)
+  - `$3` $arrow$ Temporary comparison
+  - `$4` $arrow$ Current n (counts down)
+  - `$31` $arrow$ Return address (set by jal)
+
+  *Recursive Approach:*
+
+  ```
+    addi $2, $0, 1        # result = 1 (identity for multiplication)
+    
+    fac:
+        slt $3, $0, $4    # is 0 < $4? (is n > 0?)
+        beq $3, $0, end   # if not, we're done — return
+    
+        addi $30, $30, -8 # make room for 2 values on stack
+        sw $31, 4($30)    # save return address
+        sw $4, 0($30)     # save current n
+    
+        addi $4, $4, -1   # n = n - 1
+        jal fac           # call fac(n-1), $31 gets overwritten here
+    
+    r:  lw $31, 4($30)    # restore return address
+        lw $4, 0($30)     # restore n
+        addi $30, $30, 8  # clean up stack
+    
+        mult $2, $4       # result = result × n
+        mflo $2           # store result
+    
+    end:
+        jr $31            # return
+  ```
+
+  #linebreak()
+
+  *Iterative Approach:*
+
+  ```
+    addi $2, $0, 1        # result = 1
+    slt $3, $0, $4        # is n > 0?
+    beq $3, $0, end       # if n=0, skip loop
+    
+    addi $3, $4, 0        # $3 = copy of n (use $3 as counter)
+    
+    loop:
+        mult $2, $3       # result = result × $3
+        mflo $2           # store result
+        addi $3, $3, -1   # decrement counter
+        bne $3, $0, loop  # if counter ≠ 0, loop again
+    
+    end:
+        jr $31            # return
+  ```
+]
 
 
 
@@ -949,48 +1140,50 @@
 
 #linebreak()
 
+#definition(title: "Multipexer")[
+
+  - Simplest control element
+
+  #figure(
+    image("images/multiplexer.png", width: 50%)
+  )
+
+  - Forward `X` or `Y` signal, depending on `S`
+]
+
 #definition(title: "Clock")[
+  
+  - Clock cycle: Beat of computer 
 
-  parallel processing vs concurrency 
+  - Clock signal
 
-  ticks are controlled using edge control 
+  #figure(
+    image("images/clock_signal.png", width : 80%)
+  )
 
+  - Electrical signals propagate fast 
+    - but not infinitely fast: gate delays 
 
+  - Rising edge called a tick, keeps things in sync 
   
 ]
 
 #definition(title: "Cycle Execution")[
-
-]
-
-#linebreak()
-
-#problem[
-
-  What is the machine code version of:
+  - One instruction per clock cycle 
+    - Fixed cycle length must cover slowest instruction 
   
-  ```
-  Sub $5, $1, $2
-  ```
+  1. One Instruction Per Clock Cycle
+
+    - Every instruction must finish in exactly one clock cycle
+    - The problem? Different instructions take different amounts of time physically. A memory load (lw) is much slower than a simple add]
+
+  2. One Instruction, Multiple Clock Cycles
+
+    - Instead of one fixed cycle length, each instruction is broken into subtasks (stages), and each subtask takes one cycle
+    - Fast instructions finish in fewer cycles
+    - Slow instructions take as many cycles as they need
+    - No wasted time padding fast instructions
 
 ]
-
-#solution[
-
-  `0000 00`
-  
-  Unisgned `5`-bit binary integers 
-
-  $5_10 = 00101_2$
-
-  $1_10 - 00001_2$
-
-  $2_10 = 00010_2$
-
-  `0000 00 (op code for regsiter only instructions) 00 001 ($s | $1|) 0 0010 1 ($t | $2) 0010 ($d | $5) 000`
-
-]
-
-
 
 
