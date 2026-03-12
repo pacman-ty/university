@@ -532,7 +532,7 @@ We are given a cipher text to break
 
 #pagebreak()
 
-= Hash Functions 
+== Hash Functions 
 
 #linebreak()
 
@@ -814,7 +814,7 @@ We can take this and do $arrow$
 
 #pagebreak()
 
-== Message Authentication Codes Authenticated Encryption
+=== Message Authentication Codes Authenticated Encryption
 
 #linebreak()
 
@@ -981,7 +981,7 @@ The adversary knowns everything about the MAC scheme expect the value of $k$
 
 #pagebreak()
 
-== Chosen Ciphertext Attacks 
+=== Chosen Ciphertext Attacks 
 
 #linebreak()
 
@@ -1005,7 +1005,7 @@ The adversary knowns everything about the MAC scheme expect the value of $k$
   We can formalize this with a more sophisticated interactive security reduction proof.
 ]
 
-== Pseudorandom Functions
+=== Pseudorandom Functions
 
 #definition(title: "Pseudorandom Generator")[
   A pseudorandom generator is a deterministic function that takes as input a uniform seed $k in {0 , 1}^l$ and outputs a random looking binary string of length $l$ 
@@ -1058,7 +1058,7 @@ The adversary knowns everything about the MAC scheme expect the value of $k$
 
 #pagebreak()
 
-== Password Hashing 
+=== Password Hashing 
 
 #linebreak()
 
@@ -1142,9 +1142,71 @@ The adversary knowns everything about the MAC scheme expect the value of $k$
   - Salting doesn't make it harder to do a brute force search against a single hash 
 
   - Salting does make brute force attacks against many hashes harder because you can't reuse the work from one attack on another attach
-]#definition(title: "Password Hardening")[
+]
+
+#definition(title: "Password Hardening")[
 
   - You can slow down brute force attacks even more by hashing the password multiple times
 
   - Doesn't slow login much, but slows brute force by a factor of the number of times you hashed 
 ]
+
+#pagebreak()
+
+= Asymmetric Encryption
+
+#linebreak()
+
+#definition(title: "Symmetric Key Cryptography")[
+
+  Communicating parties share a secret key 
+
+]
+
+#definition(title: "Establishment Problem")[
+
+  How do two parties establish a secret key $k$ 
+
+]
+
+#corollary(title: "Point to Point Key Distribution")[
+
+  $A$ selects a key $k$ and sends it to $B$ over a secure channel 
+  
+  Drawbacks:
+    - Not scaleable 
+]
+
+#definition(title: "Use a Trusted Third Party (TTP) ")[
+
+  - Each user $A$ shares a secret key $k_(A T)$ with $T$ for a symmetric key encryption scheme $E$ 
+  - To establish this key, $A$ must vist $T$ once 
+  - $T$ serves as a key distribution service
+
+  #figure(
+    image("images/KDC.png")
+  )
+
+  Drawbacks: 
+    - The TTP must be unconditionally trusted
+    - TTP is an attractive target 
+    - TTP must be online 
+]
+
+#definition(title: "Key Management Problem")[
+
+  - In a network of $n$ users, each user has to share a different key with every other user
+  - Each user thus has to store $n - 1$ different secret keys 
+  - The total number of secret keys is $"permutation"(n, 2) approx n^2 / 2$ 
+
+]
+
+#remark[
+  Non-repudiation can't be achieved using symmetric techniques
+  
+  - Non-repudiation
+    - Preventing an entity from denying previous actions or commitments.
+    - Denying being the source of a message
+]
+
+
